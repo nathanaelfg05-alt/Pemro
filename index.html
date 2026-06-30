@@ -3,179 +3,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cheat Sheet UAS Struktur Data</title>
+    <title>Struktur Data Dashboard - Cheat Sheet UAS</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .active-tab {
-            background-color: #3b82f6;
-            color: white;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen pb-24">
+<body class="bg-[#0f172a] text-slate-200 min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
 
-    <header class="bg-blue-600 text-white p-4 sticky top-0 shadow-md z-50">
-        <div class="max-w-md mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold"><i class="fa-solid fa-code-branch mr-2"></i>UAS Struktur Data</h1>
-            <span class="bg-blue-800 text-xs px-2 py-1 rounded font-mono">2026/2027</span>
+    <header class="bg-[#1e293b]/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 px-4 py-3">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 text-white p-2 rounded-lg shadow-lg shadow-blue-500/20">
+                    <i class="fa-solid fa-graduation-cap text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-md font-bold tracking-tight text-white">UAS Kampus Hub</h1>
+                    <p class="text-xs text-slate-400">Cheat Sheet & Simulator Struktur Data</p>
+                </div>
+            </div>
+            <div class="flex bg-[#0f172a] p-1 rounded-xl border border-slate-800 w-full sm:w-auto">
+                <button onclick="switchTab('materi')" id="btn-materi" class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 bg-blue-600 text-white shadow-md">
+                    <i class="fa-solid fa-book-open mr-1.5"></i> Ringkasan Materi
+                </button>
+                <button onclick="switchTab('simulator')" id="btn-simulator" class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 text-slate-400 hover:text-slate-200">
+                    <i class="fa-solid fa-gamepad mr-1.5"></i> Simulator Kuis
+                </button>
+            </div>
         </div>
     </header>
 
-    <main class="max-w-md mx-auto p-4 space-y-6">
-
-        <section id="sec-aritmatika" class="content-section">
-            <div class="bg-gray-800 rounded-xl p-5 shadow-lg border border-gray-700">
-                <h2 class="text-xl font-bold text-blue-400 mb-3 flex items-center">
-                    <i class="fa-solid fa-calculator mr-2"></i> Konversi Aritmatika
-                </h2>
-                <p class="text-sm text-gray-400 mb-4">Urutan pengerjaan ditentukan oleh posisi operator.</p>
-
-                <div class="space-y-3">
-                    <div class="bg-gray-750 p-3 rounded-lg border-l-4 border-green-500">
-                        <span class="font-semibold text-green-400 block text-sm">Infix (Manusia)</span>
-                        <code class="text-lg font-mono text-white">A + B * C</code>
-                    </div>
-                    <div class="bg-gray-750 p-3 rounded-lg border-l-4 border-yellow-500">
-                        <span class="font-semibold text-yellow-400 block text-sm">Prefix (Polish)</span>
-                        <code class="text-lg font-mono text-white">+ A * B C</code>
-                    </div>
-                    <div class="bg-gray-750 p-3 rounded-lg border-l-4 border-red-500">
-                        <span class="font-semibold text-red-400 block text-sm">Postfix (Reverse Polish)</span>
-                        <code class="text-lg font-mono text-white">A B C * +</code>
-                    </div>
-                </div>
-
-                <div class="mt-4 bg-gray-900 p-3 rounded-lg text-xs space-y-1">
-                    <p class="font-bold text-gray-300">Derajat Kekuatan Operator:</p>
-                    <p>1. <code class="text-blue-400">^</code> (Pangkat) - Kanan ke Kiri</p>
-                    <p>2. <code class="text-blue-400">* /</code> (Kali/Bagi) - Kiri ke Kanan</p>
-                    <p>3. <code class="text-blue-400">+ -</code> (Tambah/Kurang) - Kiri ke Kanan</p>
-                </div>
-
-                <div class="mt-4 bg-blue-950/40 p-3 rounded-lg border border-blue-800 text-xs">
-                    <span class="font-bold text-blue-300 block mb-1"><i class="fa-solid fa-lightbulb mr-1"></i> Trik Ujian Manual:</span>
-                    Beri kurung penuh sesuai derajat <code class="text-gray-300">(A + (B * C))</code>. Pindahkan operator ke depan kurung untuk <b>Prefix</b> atau ke belakang kurung untuk <b>Postfix</b>, lalu hapus semua kurung!
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:py-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        <aside id="sidebar-menu" class="lg:col-span-1 space-y-2">
+            <div class="bg-[#1e293b] rounded-2xl p-4 border border-slate-800 sticky top-24">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3 px-2">Daftar Modul</p>
+                <nav class="space-y-1">
+                    <button onclick="scrollToSection('sec-notasi')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-medium bg-slate-800/60 text-blue-400 border border-slate-700/50 transition-all">
+                        <i class="fa-solid fa-calculator w-4 text-center"></i> Konversi Aritmatika
+                    </button>
+                    <button onclick="scrollToSection('sec-tree')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-medium text-slate-400 hover:bg-slate-800/40 hover:text-slate-200 transition-all">
+                        <i class="fa-solid fa-network-wired w-4 text-center"></i> Tree & BST
+                    </button>
+                    <button onclick="scrollToSection('sec-graph')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-medium text-slate-400 hover:bg-slate-800/40 hover:text-slate-200 transition-all">
+                        <i class="fa-solid fa-circle-nodes w-4 text-center"></i> Graph Traversal
+                    </button>
+                </nav>
+                <div class="mt-6 pt-4 border-t border-slate-800 text-center text-xs text-slate-500">
+                    Tekan tombol untuk lompat halaman. Cocok dibuka di PC maupun HP.
                 </div>
             </div>
-        </section>
+        </aside>
 
-        <section id="sec-tree" class="content-section hidden">
-            <div class="bg-gray-800 rounded-xl p-5 shadow-lg border border-gray-700">
-                <h2 class="text-xl font-bold text-green-400 mb-3 flex items-center">
-                    <i class="fa-solid fa-network-wired mr-2"></i> Tree & BST
-                </h2>
+        <div id="main-content-panel" class="lg:col-span-3 space-y-8">
+            
+            <div id="view-materi" class="space-y-8">
                 
-                <div class="mb-4 bg-gray-900 p-3 rounded-lg text-xs">
-                    <span class="font-bold text-yellow-400 block mb-1">Aturan Saklek BST:</span>
-                    Kiri < Root (Lebih Kecil)<br>
-                    Kanan > Root (Lebih Besar)
-                </div>
+                <section id="sec-notasi" class="bg-[#1e293b] rounded-2xl border border-slate-800 overflow-hidden shadow-xl scroll-mt-24">
+                    <div class="p-5 border-b border-slate-800 bg-gradient-to-r from-blue-900/20 to-transparent">
+                        <span class="text-xs font-bold text-blue-500 bg-blue-500/10 px-2.5 py-1 rounded-full uppercase tracking-wider">Modul 01</span>
+                        <h2 class="text-lg font-bold text-white mt-2 flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-blue-500"></i> Konversi Infix, Prefix, & Postfix
+                        </h2>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Notasi aritmatika dibedakan berdasarkan penempatan posisi <b>operator</b> terhadap <b>operand</b> (variabel/angka). Pemahaman penempatan stack sangat krusial untuk bagian coding ujian tertulis.
+                        </p>
 
-                <h3 class="text-sm font-bold text-gray-300 mb-2">Metode Traversal (Penelusuran):</h3>
-                <div class="space-y-2 text-xs">
-                    <div class="bg-gray-700 p-2 rounded">
-                        <span class="font-bold text-blue-400">Pre-Order:</span> <span class="font-mono text-white">Root &rarr; Kiri &rarr; Kanan</span>
-                    </div>
-                    <div class="bg-gray-700 p-2 rounded">
-                        <span class="font-bold text-green-400">In-Order:</span> <span class="font-mono text-white">Kiri &rarr; Root &rarr; Kanan</span>
-                        <p class="text-gray-400 mt-1 italic">*Tips UAS: Hasil In-Order pada BST pasti berurutan dari kecil ke besar!</p>
-                    </div>
-                    <div class="bg-gray-700 p-2 rounded">
-                        <span class="font-bold text-red-400">Post-Order:</span> <span class="font-mono text-white">Kiri &rarr; Kanan &rarr; Root</span>
-                    </div>
-                </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800">
+                                <span class="text-[10px] uppercase tracking-wider font-bold text-emerald-400">Infix (Standard)</span>
+                                <div class="code-font text-md text-white font-semibold mt-1">A + B</div>
+                                <p class="text-[11px] text-slate-500 mt-1">Operator berada di tengah kedua operand.</p>
+                            </div>
+                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800">
+                                <span class="text-[10px] uppercase tracking-wider font-bold text-amber-400">Prefix (Polish)</span>
+                                <div class="code-font text-md text-white font-semibold mt-1">+ A B</div>
+                                <p class="text-[11px] text-slate-500 mt-1">Operator dipindah ke depan kedua operand.</p>
+                            </div>
+                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800">
+                                <span class="text-[10px] uppercase tracking-wider font-bold text-rose-400">Postfix (Reverse Polish)</span>
+                                <div class="code-font text-md text-white font-semibold mt-1">A B +</div>
+                                <p class="text-[11px] text-slate-500 mt-1">Operator dipindah ke belakang kedua operand.</p>
+                            </div>
+                        </div>
 
-                <div class="mt-4 bg-gray-900 p-3 rounded-lg text-xs space-y-1">
-                    <p class="font-bold text-gray-300">Terminologi Penting:</p>
-                    <p>&bull; <b class="text-gray-200">Root:</b> Node paling atas.</p>
-                    <p>&bull; <b class="text-gray-200">Leaf (Daun):</b> Node tanpa anak.</p>
-                    <p>&bull; <b class="text-gray-200">Height:</b> Jumlah level dari root ke daun terdalam.</p>
+                        <div class="bg-slate-900/60 rounded-xl p-4 border border-slate-800">
+                            <h3 class="text-xs font-bold text-slate-300 mb-2 flex items-center gap-1.5">
+                                <i class="fa-solid fa-arrow-up-9-1 text-blue-500"></i> Aturan Precedence (Derajat Operator)
+                            </h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs">
+                                    <thead>
+                                        <tr class="text-slate-500 border-b border-slate-800">
+                                            <th class="pb-2">Operator</th>
+                                            <th class="pb-2">Deskripsi</th>
+                                            <th class="pb-2 text-right">Arah Asosiatif</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-800/50 text-slate-300 font-mono">
+                                        <tr>
+                                            <td class="py-2 text-blue-400 font-bold">^</td>
+                                            <td class="py-2">Pangkat (Tertinggi)</td>
+                                            <td class="py-2 text-right">Kanan ke Kiri</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 text-amber-400 font-bold">* /</td>
+                                            <td class="py-2">Perkalian / Pembagian</td>
+                                            <td class="py-2 text-right">Kiri ke Kanan</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 text-rose-400 font-bold">+ -</td>
+                                            <td class="py-2">Penjumlahan / Pengurangan</td>
+                                            <td class="py-2 text-right">Kiri ke Kanan</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-950/30 border border-blue-900/60 rounded-xl p-4">
+                            <span class="text-xs font-bold text-blue-400 block mb-1"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Trik Cepat Manual (Metode Tanda Kurung)</span>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Selesaikan ekspresi dengan memberi tanda kurung ketat berdasarkan urutan derajat matematika: <br>
+                                Kasus: <code class="text-yellow-400 code-font">A + B * C</code> menjadi <code class="text-emerald-400 code-font">(A + (B * C))</code>.
+                            </p>
+                            <ul class="text-[11px] text-slate-400 mt-2 list-disc pl-4 space-y-1">
+                                <li><b>Mencari Prefix:</b> Pindahkan operator ke sisi kiri setiap kurung pasangannya &rarr; <code class="code-font text-slate-200">+ A * B C</code></li>
+                                <li><b>Mencari Postfix:</b> Pindahkan operator ke sisi kanan setiap kurung pasangannya &rarr; <code class="code-font text-slate-200">A B C * +</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="sec-tree" class="bg-[#1e293b] rounded-2xl border border-slate-800 overflow-hidden shadow-xl scroll-mt-24">
+                    <div class="p-5 border-b border-slate-800 bg-gradient-to-r from-emerald-900/20 to-transparent">
+                        <span class="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-full uppercase tracking-wider">Modul 02</span>
+                        <h2 class="text-lg font-bold text-white mt-2 flex items-center gap-2">
+                            <i class="fa-solid fa-network-wired text-emerald-500"></i> Tree & Binary Search Tree (BST)
+                        </h2>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <h3 class="text-xs font-bold text-white">Prinsip Binary Search Tree (BST):</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    Struktur data hirarki bercabang dua di mana setiap simpul anak di sebelah <b>KIRI</b> selalu bernilai lebih kecil dari <i>Parent</i>, dan simpul anak di sebelah <b>KANAN</b> selalu bernilai lebih besar.
+                                </p>
+                                <div class="bg-[#0f172a] p-3 rounded-xl border border-slate-800 font-mono text-[11px] text-emerald-400">
+                                    Aturan Penyisipan: <br>
+                                    - Node &lt; Current: Masuk Kiri <br>
+                                    - Node &gt; Current: Masuk Kanan
+                                </div>
+                            </div>
+                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800 flex flex-col items-center justify-center text-xs">
+                                <span class="text-[10px] text-slate-500 font-mono mb-2">Visual Sederhana BST</span>
+                                <div class="flex flex-col items-center gap-2 font-mono">
+                                    <div class="bg-emerald-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">50</div>
+                                    <div class="flex gap-8">
+                                        <div class="flex flex-col items-center">
+                                            <div class="text-slate-600 text-[10px]">&swarr;</div>
+                                            <div class="bg-slate-800 border border-slate-700 text-slate-300 w-7 h-7 rounded-full flex items-center justify-center font-bold">30</div>
+                                        </div>
+                                        <div class="flex flex-col items-center">
+                                            <div class="text-slate-600 text-[10px]">&searr;</div>
+                                            <div class="bg-slate-800 border border-slate-700 text-slate-300 w-7 h-7 rounded-full flex items-center justify-center font-bold">70</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h3 class="text-xs font-bold text-white">Algoritma Penelusuran (Tree Traversal):</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                                <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-800">
+                                    <span class="font-bold text-blue-400 block mb-1">Pre-Order</span>
+                                    <div class="font-mono text-slate-300 text-[11px]">Root &rarr; Kiri &rarr; Kanan</div>
+                                    <p class="text-[11px] text-slate-500 mt-1">Cetak data sesaat setelah node dikunjungi.</p>
+                                </div>
+                                <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-800">
+                                    <span class="font-bold text-emerald-400 block mb-1">In-Order</span>
+                                    <div class="font-mono text-slate-300 text-[11px]">Kiri &rarr; Root &rarr; Kanan</div>
+                                    <p class="text-[11px] text-slate-400 mt-1 italic font-medium text-emerald-500/80">*UAS Hack: Hasil traversal ini di BST pasti otomatis berurutan menaik!</p>
+                                </div>
+                                <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-800">
+                                    <span class="font-bold text-rose-400 block mb-1">Post-Order</span>
+                                    <div class="font-mono text-slate-300 text-[11px]">Kiri &rarr; Kanan &rarr; Root</div>
+                                    <p class="text-[11px] text-slate-500 mt-1">Root utama selalu dicetak pada urutan paling akhir.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="sec-graph" class="bg-[#1e293b] rounded-2xl border border-slate-800 overflow-hidden shadow-xl scroll-mt-24">
+                    <div class="p-5 border-b border-slate-800 bg-gradient-to-r from-purple-900/20 to-transparent">
+                        <span class="text-xs font-bold text-purple-500 bg-purple-500/10 px-2.5 py-1 rounded-full uppercase tracking-wider">Modul 03</span>
+                        <h2 class="text-lg font-bold text-white mt-2 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-nodes text-purple-500"></i> Graph Traversal (BFS & DFS)
+                        </h2>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Penelusuran graf digunakan untuk mengunjungi simpul-simpul berjejaring. Karakteristik utama yang sering keluar di pilihan ganda UAS adalah perbedaan <b>Struktur Data Bantu</b> internalnya.
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800 space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-blue-400">Breadth-First Search (BFS)</span>
+                                    <span class="bg-blue-500/10 text-blue-400 text-[10px] font-mono px-2 py-0.5 rounded">Queue (FIFO)</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400">
+                                    Sistem penelusuran secara melebar horizontal. Mengunjungi seluruh tetangga terdekat yang terhubung langsung sebelum masuk ke tingkatan berikutnya.
+                                </p>
+                                <div class="text-[11px] text-slate-500 bg-slate-900 p-2 rounded border border-slate-800 font-mono">
+                                    Kegunaan: Mencari rute terpendek graf tanpa bobot.
+                                </div>
+                            </div>
+                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800 space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-purple-400">Depth-First Search (DFS)</span>
+                                    <span class="bg-purple-500/10 text-purple-400 text-[10px] font-mono px-2 py-0.5 rounded">Stack (LIFO)</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400">
+                                    Sistem penelusuran mendalam vertikal. Menelusuri satu cabang hingga menemukan jalan buntu (mentok), lalu mundur kembali (backtrack) ke cabang sebelumnya.
+                                </p>
+                                <div class="text-[11px] text-slate-500 bg-slate-900 p-2 rounded border border-slate-800 font-mono">
+                                    Kegunaan: Deteksi siklus graf, labirin topologi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="view-simulator" class="space-y-6 hidden">
+                <div class="bg-[#1e293b] rounded-2xl border border-slate-800 p-6 shadow-xl">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-4">
+                        <div>
+                            <h2 class="text-md font-bold text-white">Live Simulator / Mandiri</h2>
+                            <p class="text-xs text-slate-400">Uji kemampuan instan Anda di sini untuk melihat kesiapan nilai.</p>
+                        </div>
+                        <div id="score-badge" class="bg-blue-600/10 text-blue-400 border border-blue-500/20 px-3 py-1 rounded-xl text-xs font-bold">
+                            Skor: <span id="current-score">0</span> / 3
+                        </div>
+                    </div>
+
+                    <div id="quiz-container" class="space-y-4">
+                        <div class="quiz-card space-y-3" id="q-1">
+                            <span class="text-[10px] font-mono font-bold text-blue-400 block">Pertanyaan 1 dari 3 &bull; Notasi</span>
+                            <p class="text-xs text-white font-medium">Bentuk postfix yang valid dari ekspresi infix berikut: <code class="text-amber-400 font-mono">(A + B) * C</code> adalah?</p>
+                            <div class="grid grid-cols-1 gap-2 text-xs">
+                                <button onclick="checkAnswer(1, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">A B C * +</button>
+                                <button onclick="checkAnswer(1, true, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">A B + C *</button>
+                                <button onclick="checkAnswer(1, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">* + A B C</button>
+                            </div>
+                            <p class="explanation-box text-[11px] text-slate-400 bg-slate-900 p-2.5 rounded-lg border border-slate-800 hidden"></p>
+                        </div>
+
+                        <div class="quiz-card space-y-3 hidden" id="q-2">
+                            <span class="text-[10px] font-mono font-bold text-emerald-400 block">Pertanyaan 2 dari 3 &bull; Tree</span>
+                            <p class="text-xs text-white font-medium">Bila suatu BST dibaca dengan urutan penelusuran <b>In-Order Traversal</b>, maka output urutan data angka yang tercetak pasti berupa?</p>
+                            <div class="grid grid-cols-1 gap-2 text-xs">
+                                <button onclick="checkAnswer(2, true, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">Terurut dari nilai terkecil ke terbesar</button>
+                                <button onclick="checkAnswer(2, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-allTerurut acak tidak menentu</button>
+                                <button onclick="checkAnswer(2, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">Nilai root tercetak pertama kali</button>
+                            </div>
+                            <p class="explanation-box text-[11px] text-slate-400 bg-slate-900 p-2.5 rounded-lg border border-slate-800 hidden"></p>
+                        </div>
+
+                        <div class="quiz-card space-y-3 hidden" id="q-3">
+                            <span class="text-[10px] font-mono font-bold text-purple-400 block">Pertanyaan 3 dari 3 &bull; Graph</span>
+                            <p class="text-xs text-white font-medium">Struktur data bantu internal yang wajib digunakan sewaktu mengimplementasikan algoritma penelusuran DFS (Depth-First Search) adalah?</p>
+                            <div class="grid grid-cols-1 gap-2 text-xs">
+                                <button onclick="checkAnswer(3, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">Queue (Antrean / FIFO)</button>
+                                <button onclick="checkAnswer(3, true, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">Stack (Tumpukan / LIFO)</button>
+                                <button onclick="checkAnswer(3, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">Linked List Melingkar</button>
+                            </div>
+                            <p class="explanation-box text-[11px] text-slate-400 bg-slate-900 p-2.5 rounded-lg border border-slate-800 hidden"></p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex justify-between items-center pt-4 border-t border-slate-800 text-xs">
+                        <button id="btn-reset-quiz" onclick="resetQuiz()" class="text-slate-400 hover:text-white transition-all">Ulangi Tes</button>
+                        <button id="btn-next-question" onclick="nextQuestion()" class="bg-blue-600 text-white px-4 py-2 rounded-xl font-medium shadow-md shadow-blue-500/10 hidden">Pertanyaan Selanjutnya &rarr;</button>
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <section id="sec-graph" class="content-section hidden">
-            <div class="bg-gray-800 rounded-xl p-5 shadow-lg border border-gray-700">
-                <h2 class="text-xl font-bold text-purple-400 mb-3 flex items-center">
-                    <i class="fa-solid fa-circle-nodes mr-2"></i> Graph Traversal
-                </h2>
-
-                <div class="grid grid-cols-2 gap-2 mb-4">
-                    <div class="bg-gray-900 p-3 rounded-lg text-center">
-                        <span class="font-bold text-blue-400 block text-xs">BFS</span>
-                        <span class="text-xs text-gray-400">Melebar (Tetangga)</span>
-                        <span class="block mt-2 bg-blue-600 text-white text-xs px-1 rounded font-mono">Queue (FIFO)</span>
-                    </div>
-                    <div class="bg-gray-900 p-3 rounded-lg text-center">
-                        <span class="font-bold text-purple-400 block text-xs">DFS</span>
-                        <span class="text-xs text-gray-400">Mendalam (Mentok)</span>
-                        <span class="block mt-2 bg-purple-600 text-white text-xs px-1 rounded font-mono">Stack (LIFO)</span>
-                    </div>
-                </div>
-
-                <h3 class="text-sm font-bold text-gray-300 mb-2">Representasi Graph:</h3>
-                <table class="w-full text-left text-xs bg-gray-900 rounded-lg overflow-hidden">
-                    <thead>
-                        <tr class="bg-gray-700 text-gray-200">
-                            <th class="p-2">Fitur</th>
-                            <th class="p-2">Matrix</th>
-                            <th class="p-2">List</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b border-gray-800">
-                            <td class="p-2 font-semibold">Memori</td>
-                            <td class="p-2 text-red-400">O(V²)</td>
-                            <td class="p-2 text-green-400">O(V + E)</td>
-                        </tr>
-                        <tr>
-                            <td class="p-2 font-semibold">Cocok Untuk</td>
-                            <td class="p-2">Dense Graph</td>
-                            <td class="p-2">Sparse Graph</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+        </div>
     </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 shadow-2xl z-50">
-        <div class="max-w-md mx-auto grid grid-cols-3 h-16">
-            <button onclick="switchTab('aritmatika')" id="btn-aritmatika" class="flex flex-col items-center justify-center text-gray-400 active-tab transition-colors">
-                <i class="fa-solid fa-calculator text-lg"></i>
-                <span class="text-xs mt-1">Aritmatika</span>
-            </button>
-            <button onclick="switchTab('tree')" id="btn-tree" class="flex flex-col items-center justify-center text-gray-400 transition-colors">
-                <i class="fa-solid fa-network-wired text-lg"></i>
-                <span class="text-xs mt-1">Tree</span>
-            </button>
-            <button onclick="switchTab('graph')" id="btn-graph" class="flex flex-col items-center justify-center text-gray-400 transition-colors">
-                <i class="fa-solid fa-circle-nodes text-lg"></i>
-                <span class="text-xs mt-1">Graph</span>
-            </button>
+    <footer class="bg-[#1e293b]/40 border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500 mt-auto">
+        <div class="max-w-6xl mx-auto">
+            &copy; 2026 Sandbox Premium Simulator. Bebas digunakan untuk keperluan belajar UAS.
         </div>
-    </nav>
+    </footer>
 
     <script>
-        function switchTab(tabName) {
-            // Sembunyikan semua section
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.add('hidden');
-            });
-            // Hapus kelas aktif di semua tombol
-            document.querySelectorAll('nav button').forEach(button => {
-                button.classList.remove('active-tab');
-                button.classList.add('text-gray-400');
+        let currentActiveQuestion = 1;
+        let score = 0;
+        let answeredQuestionsList = {};
+
+        // Pengontrol Tab Atas
+        function switchTab(target) {
+            const btnMateri = document.getElementById('btn-materi');
+            const btnSim = document.getElementById('btn-simulator');
+            const viewMateri = document.getElementById('view-materi');
+            const viewSim = document.getElementById('view-simulator');
+            const sidebarMenu = document.getElementById('sidebar-menu');
+            const mainPanel = document.getElementById('main-content-panel');
+
+            if (target === 'materi') {
+                btnMateri.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 bg-blue-600 text-white shadow-md";
+                btnSim.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 text-slate-400 hover:text-slate-200";
+                viewMateri.classList.remove('hidden');
+                viewSim.classList.add('hidden');
+                sidebarMenu.classList.remove('hidden');
+                mainPanel.className = "lg:col-span-3 space-y-8";
+            } else {
+                btnSim.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 bg-blue-600 text-white shadow-md";
+                btnMateri.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 text-slate-400 hover:text-slate-200";
+                viewMateri.classList.add('hidden');
+                viewSim.classList.remove('hidden');
+                sidebarMenu.classList.add('hidden');
+                mainPanel.className = "lg:col-span-4 max-w-2xl mx-auto w-full space-y-6";
+            }
+        }
+
+        // Smooth Scroll untuk Menu Navigasi Samping
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                // Ubah gaya tombol aktif
+                const buttons = document.querySelectorAll('#sidebar-menu nav button');
+                buttons.forEach(btn => {
+                    btn.className = "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-medium text-slate-400 hover:bg-slate-800/40 hover:text-slate-200 transition-all";
+                });
+                event.currentTarget.className = "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-medium bg-slate-800/60 text-blue-400 border border-slate-700/50 transition-all";
+            }
+        }
+
+        // Logika Simulator Kuis Interaktif
+        function checkAnswer(questionNum, isCorrect, clickedElement) {
+            if (answeredQuestionsList[questionNum]) return; // Cegah klik berulang
+            answeredQuestionsList[questionNum] = true;
+
+            const card = document.getElementById(`q-${questionNum}`);
+            const buttons = card.querySelectorAll('button');
+            const expBox = card.querySelector('.explanation-box');
+
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn === clickedElement) {
+                    if (isCorrect) {
+                        btn.className = "w-full bg-emerald-600/20 border border-emerald-500 text-emerald-400 p-3 rounded-xl text-left transition-all font-medium";
+                        score++;
+                        document.getElementById('current-score').innerText = score;
+                    } else {
+                        btn.className = "w-full bg-rose-600/20 border border-rose-500 text-rose-400 p-3 rounded-xl text-left transition-all font-medium";
+                    }
+                } else {
+                    btn.className = "w-full bg-[#0f172a]/40 border border-slate-800/50 text-slate-600 p-3 rounded-xl text-left transition-all cursor-not-allowed";
+                }
             });
 
-            // Tampilkan section pilihan dan aktifkan tombolnya
-            document.getElementById('sec-' + tabName).classList.remove('hidden');
-            document.getElementById('btn-' + tabName).classList.add('active-tab');
-            document.getElementById('btn-' + tabName).classList.remove('text-gray-400');
-            
-            // Scroll otomatis ke atas agar nyaman dibaca kembali
-            window.scrollTo({top: 0, behavior: 'smooth'});
+            // Tampilkan Rationale / Penjelasan jawaban
+            expBox.classList.remove('hidden');
+            if (questionNum === 1) {
+                expBox.innerText = "Penjelasan: Bagian di dalam kurung (A + B) diubah terlebih dahulu menjadi AB+. Lalu kalikan hasilnya dengan C sehingga menjadi AB+C*.";
+            } else if (questionNum === 2) {
+                expBox.innerText = "Penjelasan: Karakteristik utama Binary Search Tree (BST) jika dibaca dengan urutan Kiri-Root-Kanan (In-Order) selalu mengurutkan angka dari kecil ke besar.";
+            } else if (questionNum === 3) {
+                expBox.innerText = "Penjelasan: DFS menyelami graf ke bawah hingga mentok memanfaatkan struktur LIFO (Last In First Out) dari Stack. Jika BFS baru memakai Queue.";
+            }
+
+            document.getElementById('btn-next-question').classList.remove('hidden');
+            if (questionNum === 3) {
+                document.getElementById('btn-next-question').innerText = "Kuis Selesai! 🎉";
+            }
+        }
+
+        function nextQuestion() {
+            if (currentActiveQuestion < 3) {
+                document.getElementById(`q-${currentActiveQuestion}`).classList.add('hidden');
+                currentActiveQuestion++;
+                document.getElementById(`q-${currentActiveQuestion}`).classList.remove('hidden');
+                document.getElementById('btn-next-question').classList.add('hidden');
+            }
+        }
+
+        function resetQuiz() {
+            currentActiveQuestion = 1;
+            score = 0;
+            answeredQuestionsList = {};
+            document.getElementById('current-score').innerText = "0";
+            document.getElementById('btn-next-question').innerText = "Pertanyaan Selanjutnya \u2192";
+            document.getElementById('btn-next-question').classList.add('hidden');
+
+            for (let i = 1; i <= 3; i++) {
+                const card = document.getElementById(`q-${i}`);
+                if (i === 1) card.classList.remove('hidden');
+                else card.classList.add('hidden');
+
+                card.querySelector('.explanation-box').classList.add('hidden');
+                const buttons = card.querySelectorAll('button');
+                buttons.forEach(btn => {
+                    btn.disabled = false;
+                    btn.className = "w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all";
+                });
+            }
         }
     </script>
 </body>

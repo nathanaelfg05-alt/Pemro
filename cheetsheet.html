@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheat Sheet UAS Struktur Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .active-tab {
+            background-color: #3b82f6;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen pb-24">
+
+    <header class="bg-blue-600 text-white p-4 sticky top-0 shadow-md z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold"><i class="fa-solid fa-code-branch mr-2"></i>UAS Struktur Data</h1>
+            <span class="bg-blue-800 text-xs px-2 py-1 rounded font-mono">2026/2027</span>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto p-4 space-y-6">
+
+        <section id="sec-aritmatika" class="content-section">
+            <div class="bg-gray-800 rounded-xl p-5 shadow-lg border border-gray-700">
+                <h2 class="text-xl font-bold text-blue-400 mb-3 flex items-center">
+                    <i class="fa-solid fa-calculator mr-2"></i> Konversi Aritmatika
+                </h2>
+                <p class="text-sm text-gray-400 mb-4">Urutan pengerjaan ditentukan oleh posisi operator.</p>
+
+                <div class="space-y-3">
+                    <div class="bg-gray-750 p-3 rounded-lg border-l-4 border-green-500">
+                        <span class="font-semibold text-green-400 block text-sm">Infix (Manusia)</span>
+                        <code class="text-lg font-mono text-white">A + B * C</code>
+                    </div>
+                    <div class="bg-gray-750 p-3 rounded-lg border-l-4 border-yellow-500">
+                        <span class="font-semibold text-yellow-400 block text-sm">Prefix (Polish)</span>
+                        <code class="text-lg font-mono text-white">+ A * B C</code>
+                    </div>
+                    <div class="bg-gray-750 p-3 rounded-lg border-l-4 border-red-500">
+                        <span class="font-semibold text-red-400 block text-sm">Postfix (Reverse Polish)</span>
+                        <code class="text-lg font-mono text-white">A B C * +</code>
+                    </div>
+                </div>
+
+                <div class="mt-4 bg-gray-900 p-3 rounded-lg text-xs space-y-1">
+                    <p class="font-bold text-gray-300">Derajat Kekuatan Operator:</p>
+                    <p>1. <code class="text-blue-400">^</code> (Pangkat) - Kanan ke Kiri</p>
+                    <p>2. <code class="text-blue-400">* /</code> (Kali/Bagi) - Kiri ke Kanan</p>
+                    <p>3. <code class="text-blue-400">+ -</code> (Tambah/Kurang) - Kiri ke Kanan</p>
+                </div>
+
+                <div class="mt-4 bg-blue-950/40 p-3 rounded-lg border border-blue-800 text-xs">
+                    <span class="font-bold text-blue-300 block mb-1"><i class="fa-solid fa-lightbulb mr-1"></i> Trik Ujian Manual:</span>
+                    Beri kurung penuh sesuai derajat <code class="text-gray-300">(A + (B * C))</code>. Pindahkan operator ke depan kurung untuk <b>Prefix</b> atau ke belakang kurung untuk <b>Postfix</b>, lalu hapus semua kurung!
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-tree" class="content-section hidden">
+            <div class="bg-gray-800 rounded-xl p-5 shadow-lg border border-gray-700">
+                <h2 class="text-xl font-bold text-green-400 mb-3 flex items-center">
+                    <i class="fa-solid fa-network-wired mr-2"></i> Tree & BST
+                </h2>
+                
+                <div class="mb-4 bg-gray-900 p-3 rounded-lg text-xs">
+                    <span class="font-bold text-yellow-400 block mb-1">Aturan Saklek BST:</span>
+                    Kiri < Root (Lebih Kecil)<br>
+                    Kanan > Root (Lebih Besar)
+                </div>
+
+                <h3 class="text-sm font-bold text-gray-300 mb-2">Metode Traversal (Penelusuran):</h3>
+                <div class="space-y-2 text-xs">
+                    <div class="bg-gray-700 p-2 rounded">
+                        <span class="font-bold text-blue-400">Pre-Order:</span> <span class="font-mono text-white">Root &rarr; Kiri &rarr; Kanan</span>
+                    </div>
+                    <div class="bg-gray-700 p-2 rounded">
+                        <span class="font-bold text-green-400">In-Order:</span> <span class="font-mono text-white">Kiri &rarr; Root &rarr; Kanan</span>
+                        <p class="text-gray-400 mt-1 italic">*Tips UAS: Hasil In-Order pada BST pasti berurutan dari kecil ke besar!</p>
+                    </div>
+                    <div class="bg-gray-700 p-2 rounded">
+                        <span class="font-bold text-red-400">Post-Order:</span> <span class="font-mono text-white">Kiri &rarr; Kanan &rarr; Root</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 bg-gray-900 p-3 rounded-lg text-xs space-y-1">
+                    <p class="font-bold text-gray-300">Terminologi Penting:</p>
+                    <p>&bull; <b class="text-gray-200">Root:</b> Node paling atas.</p>
+                    <p>&bull; <b class="text-gray-200">Leaf (Daun):</b> Node tanpa anak.</p>
+                    <p>&bull; <b class="text-gray-200">Height:</b> Jumlah level dari root ke daun terdalam.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-graph" class="content-section hidden">
+            <div class="bg-gray-800 rounded-xl p-5 shadow-lg border border-gray-700">
+                <h2 class="text-xl font-bold text-purple-400 mb-3 flex items-center">
+                    <i class="fa-solid fa-circle-nodes mr-2"></i> Graph Traversal
+                </h2>
+
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                    <div class="bg-gray-900 p-3 rounded-lg text-center">
+                        <span class="font-bold text-blue-400 block text-xs">BFS</span>
+                        <span class="text-xs text-gray-400">Melebar (Tetangga)</span>
+                        <span class="block mt-2 bg-blue-600 text-white text-xs px-1 rounded font-mono">Queue (FIFO)</span>
+                    </div>
+                    <div class="bg-gray-900 p-3 rounded-lg text-center">
+                        <span class="font-bold text-purple-400 block text-xs">DFS</span>
+                        <span class="text-xs text-gray-400">Mendalam (Mentok)</span>
+                        <span class="block mt-2 bg-purple-600 text-white text-xs px-1 rounded font-mono">Stack (LIFO)</span>
+                    </div>
+                </div>
+
+                <h3 class="text-sm font-bold text-gray-300 mb-2">Representasi Graph:</h3>
+                <table class="w-full text-left text-xs bg-gray-900 rounded-lg overflow-hidden">
+                    <thead>
+                        <tr class="bg-gray-700 text-gray-200">
+                            <th class="p-2">Fitur</th>
+                            <th class="p-2">Matrix</th>
+                            <th class="p-2">List</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-800">
+                            <td class="p-2 font-semibold">Memori</td>
+                            <td class="p-2 text-red-400">O(V²)</td>
+                            <td class="p-2 text-green-400">O(V + E)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 font-semibold">Cocok Untuk</td>
+                            <td class="p-2">Dense Graph</td>
+                            <td class="p-2">Sparse Graph</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 shadow-2xl z-50">
+        <div class="max-w-md mx-auto grid grid-cols-3 h-16">
+            <button onclick="switchTab('aritmatika')" id="btn-aritmatika" class="flex flex-col items-center justify-center text-gray-400 active-tab transition-colors">
+                <i class="fa-solid fa-calculator text-lg"></i>
+                <span class="text-xs mt-1">Aritmatika</span>
+            </button>
+            <button onclick="switchTab('tree')" id="btn-tree" class="flex flex-col items-center justify-center text-gray-400 transition-colors">
+                <i class="fa-solid fa-network-wired text-lg"></i>
+                <span class="text-xs mt-1">Tree</span>
+            </button>
+            <button onclick="switchTab('graph')" id="btn-graph" class="flex flex-col items-center justify-center text-gray-400 transition-colors">
+                <i class="fa-solid fa-circle-nodes text-lg"></i>
+                <span class="text-xs mt-1">Graph</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        function switchTab(tabName) {
+            // Sembunyikan semua section
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            // Hapus kelas aktif di semua tombol
+            document.querySelectorAll('nav button').forEach(button => {
+                button.classList.remove('active-tab');
+                button.classList.add('text-gray-400');
+            });
+
+            // Tampilkan section pilihan dan aktifkan tombolnya
+            document.getElementById('sec-' + tabName).classList.remove('hidden');
+            document.getElementById('btn-' + tabName).classList.add('active-tab');
+            document.getElementById('btn-' + tabName).classList.remove('text-gray-400');
+            
+            // Scroll otomatis ke atas agar nyaman dibaca kembali
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
+</body>
+</html>

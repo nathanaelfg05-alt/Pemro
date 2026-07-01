@@ -1,429 +1,696 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Struktur Data Dashboard - Cheat Sheet UAS</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .code-font {
-            font-family: 'Fira Code', monospace;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheat Sheet UAS · Machine Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B1D2A;
+    --paper:#F6F5F1;
+    --card:#FFFFFF;
+    --sidebar:#181A2A;
+    --sidebar-text:#C7C9DA;
+    --accent:#4C5FF7;
+    --accent-soft:#EDECFC;
+    --warn:#FF7A45;
+    --warn-soft:#FFE9DD;
+    --ok:#1F9D6C;
+    --ok-soft:#DEF5EA;
+    --line:#E4E2DA;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+    --display: 'Space Grotesk', var(--sans);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+  }
+  a{color:var(--accent);}
+
+  /* progress bar */
+  #progress{
+    position:fixed; top:0; left:0; height:3px; width:0%;
+    background:linear-gradient(90deg, var(--accent), var(--warn));
+    z-index:999; transition:width .1s linear;
+  }
+
+  /* layout */
+  .shell{display:flex; min-height:100vh;}
+  aside.sidebar{
+    width:272px; flex-shrink:0; background:var(--sidebar); color:var(--sidebar-text);
+    position:fixed; top:0; left:0; bottom:0; overflow-y:auto; padding:26px 20px 40px;
+    z-index:100;
+  }
+  aside.sidebar::-webkit-scrollbar{width:6px;}
+  aside.sidebar::-webkit-scrollbar-thumb{background:#33354c; border-radius:4px;}
+
+  .brand{display:flex; align-items:center; gap:10px; margin-bottom:6px;}
+  .brand-mark{
+    width:34px; height:34px; border-radius:8px; background:var(--accent);
+    display:flex; align-items:center; justify-content:center; font-family:var(--display);
+    font-weight:700; color:white; font-size:15px; flex-shrink:0;
+  }
+  .brand-text{font-family:var(--display); font-weight:600; font-size:15.5px; color:#fff; line-height:1.25;}
+  .brand-sub{font-size:11px; color:#8688a3; letter-spacing:.03em; margin:2px 0 22px 44px;}
+
+  .search-wrap{position:relative; margin-bottom:22px;}
+  #search{
+    width:100%; background:#232538; border:1px solid #33354c; color:#eceefc;
+    padding:9px 12px 9px 32px; border-radius:8px; font-size:13px; font-family:var(--sans);
+    outline:none;
+  }
+  #search::placeholder{color:#75778f;}
+  #search:focus{border-color:var(--accent);}
+  .search-wrap svg{position:absolute; left:10px; top:50%; transform:translateY(-50%); opacity:.6;}
+
+  nav.navlist{display:flex; flex-direction:column; gap:2px;}
+  .nav-group-label{font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:#6d6f8a; margin:16px 4px 6px;}
+  .nav-item{
+    display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:7px;
+    text-decoration:none; color:var(--sidebar-text); font-size:13.5px; cursor:pointer;
+    transition:background .15s;
+  }
+  .nav-item:hover{background:#232538;}
+  .nav-item.active{background:var(--accent); color:#fff;}
+  .nav-tag{
+    font-family:var(--mono); font-size:10px; background:#2b2d44; color:#9fa2c4;
+    padding:2px 6px; border-radius:4px; flex-shrink:0; min-width:34px; text-align:center;
+  }
+  .nav-item.active .nav-tag{background:rgba(255,255,255,.25); color:#fff;}
+  .nav-check{
+    margin-left:auto; width:15px; height:15px; border-radius:50%; border:1.5px solid #46485f;
+    flex-shrink:0; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .nav-check.done{background:var(--ok); border-color:var(--ok);}
+  .nav-check.done::after{content:'✓'; font-size:9px; color:#fff;}
+
+  .sidebar-footer{margin-top:28px; padding-top:16px; border-top:1px solid #2b2d44; font-size:11.5px; color:#6d6f8a;}
+
+  main{margin-left:272px; flex:1; padding:0; min-width:0;}
+  .topbar{
+    display:none; position:sticky; top:0; background:var(--sidebar); color:#fff; z-index:90;
+    padding:14px 18px; align-items:center; justify-content:space-between; font-family:var(--display); font-weight:600;
+  }
+  .topbar button{background:none; border:1px solid #444; color:#fff; border-radius:6px; padding:6px 10px; font-size:13px;}
+
+  .hero{padding:64px 64px 40px; max-width:920px;}
+  .eyebrow{font-family:var(--mono); font-size:12px; color:var(--accent); letter-spacing:.06em; text-transform:uppercase; margin-bottom:14px;}
+  h1.title{font-family:var(--display); font-size:44px; line-height:1.08; margin:0 0 16px; font-weight:700;}
+  .hero p.lead{font-size:16px; color:#4a4c5e; max-width:640px; margin:0 0 26px;}
+  .hero-meta{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+  .chip{
+    font-family:var(--mono); font-size:12px; background:var(--accent-soft); color:var(--accent);
+    padding:5px 11px; border-radius:20px; border:1px solid #d8d6f8;
+  }
+
+  section{padding:10px 64px 56px; max-width:920px; scroll-margin-top:20px;}
+  .section-head{display:flex; align-items:baseline; gap:14px; margin-bottom:6px; padding-top:38px; border-top:1px solid var(--line);}
+  section:first-of-type .section-head{border-top:none;}
+  .week-badge{
+    font-family:var(--mono); font-weight:600; font-size:13px; background:var(--ink); color:#fff;
+    padding:5px 10px; border-radius:6px; flex-shrink:0;
+  }
+  h2.sec-title{font-family:var(--display); font-size:28px; margin:0; font-weight:700;}
+  .sec-desc{color:#5c5e70; font-size:14.5px; margin:8px 0 26px;}
+
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; margin-bottom:16px;
+  }
+  .card h3{font-family:var(--display); font-size:16.5px; margin:0 0 10px; font-weight:600;}
+  .card h3 .num{color:var(--accent); font-family:var(--mono); font-size:13px; margin-right:6px;}
+  .card p{margin:0 0 10px; font-size:14.5px; color:#333449;}
+  .card ul{margin:8px 0 0; padding-left:20px; font-size:14.5px; color:#333449;}
+  .card li{margin-bottom:5px;}
+  .card ul li b, .card p b{color:var(--ink);}
+
+  .formula{
+    font-family:var(--mono); background:var(--accent-soft); border:1px solid #d8d6f8;
+    border-radius:8px; padding:12px 16px; margin:10px 0; font-size:14px; color:#2f2f6b;
+    overflow-x:auto; white-space:pre;
+  }
+  .formula .label{display:block; font-family:var(--sans); font-size:11px; text-transform:uppercase;
+    letter-spacing:.05em; color:#7a78c9; margin-bottom:4px; font-weight:600;}
+
+  .tip{
+    background:var(--warn-soft); border:1px solid #ffd2b8; border-left:4px solid var(--warn);
+    border-radius:8px; padding:12px 16px; margin:14px 0; font-size:14px; color:#7a3418;
+  }
+  .tip b{color:#a8420e;}
+
+  table{width:100%; border-collapse:collapse; font-size:13.5px; margin:8px 0;}
+  th, td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--line);}
+  th{background:#F0EEE7; font-family:var(--display); font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:.03em; color:#5c5e70;}
+  tr:last-child td{border-bottom:none;}
+  td code, p code, li code{font-family:var(--mono); background:#F0EEE7; padding:1px 5px; border-radius:4px; font-size:12.5px;}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .steps{counter-reset:step;}
+  .steps li{list-style:none; position:relative; padding-left:6px; margin-bottom:10px;}
+  .steps{padding-left:0;}
+  .steps li::before{counter-increment:step; content:counter(step); font-family:var(--mono); font-weight:600;
+    background:var(--ink); color:#fff; width:18px; height:18px; border-radius:50%; display:inline-flex;
+    align-items:center; justify-content:center; font-size:10.5px; margin-right:8px;}
+
+  .backtotop{
+    position:fixed; bottom:24px; right:24px; background:var(--ink); color:#fff; border:none;
+    width:42px; height:42px; border-radius:50%; cursor:pointer; font-size:16px; display:none;
+    align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(0,0,0,.25); z-index:80;
+  }
+  .backtotop.show{display:flex;}
+
+  .highlight-off{ opacity:.25; }
+  mark{background:#FFE9A6; padding:0 2px; border-radius:2px;}
+
+  @media (max-width:900px){
+    aside.sidebar{transform:translateX(-100%); transition:transform .2s; width:82%; max-width:320px;}
+    aside.sidebar.open{transform:translateX(0);}
+    main{margin-left:0;}
+    .topbar{display:flex;}
+    .hero{padding:34px 22px 24px;}
+    section{padding:6px 22px 40px;}
+    h1.title{font-size:30px;}
+    .grid2{grid-template-columns:1fr;}
+  }
+</style>
 </head>
-<body class="bg-[#0f172a] text-slate-200 min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
+<body>
 
-    <header class="bg-[#1e293b]/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 px-4 py-3">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
-            <div class="flex items-center gap-3">
-                <div class="bg-blue-600 text-white p-2 rounded-lg shadow-lg shadow-blue-500/20">
-                    <i class="fa-solid fa-graduation-cap text-lg"></i>
-                </div>
-                <div>
-                    <h1 class="text-md font-bold tracking-tight text-white">UAS Kampus Hub</h1>
-                    <p class="text-xs text-slate-400">Cheat Sheet & Simulator Struktur Data</p>
-                </div>
-            </div>
-            <div class="flex bg-[#0f172a] p-1 rounded-xl border border-slate-800 w-full sm:w-auto">
-                <button onclick="switchTab('materi')" id="btn-materi" class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 bg-blue-600 text-white shadow-md">
-                    <i class="fa-solid fa-book-open mr-1.5"></i> Ringkasan Materi
-                </button>
-                <button onclick="switchTab('simulator')" id="btn-simulator" class="flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 text-slate-400 hover:text-slate-200">
-                    <i class="fa-solid fa-gamepad mr-1.5"></i> Simulator Kuis
-                </button>
-            </div>
-        </div>
-    </header>
+<div id="progress"></div>
 
-    <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:py-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
-        
-        <aside id="sidebar-menu" class="lg:col-span-1 space-y-2">
-            <div class="bg-[#1e293b] rounded-2xl p-4 border border-slate-800 sticky top-24">
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3 px-2">Daftar Modul</p>
-                <nav class="space-y-1">
-                    <button onclick="scrollToSection('sec-notasi')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-medium bg-slate-800/60 text-blue-400 border border-slate-700/50 transition-all">
-                        <i class="fa-solid fa-calculator w-4 text-center"></i> Konversi Aritmatika
-                    </button>
-                    <button onclick="scrollToSection('sec-tree')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-medium text-slate-400 hover:bg-slate-800/40 hover:text-slate-200 transition-all">
-                        <i class="fa-solid fa-network-wired w-4 text-center"></i> Tree & BST
-                    </button>
-                    <button onclick="scrollToSection('sec-graph')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-medium text-slate-400 hover:bg-slate-800/40 hover:text-slate-200 transition-all">
-                        <i class="fa-solid fa-circle-nodes w-4 text-center"></i> Graph Traversal
-                    </button>
-                </nav>
-                <div class="mt-6 pt-4 border-t border-slate-800 text-center text-xs text-slate-500">
-                    Tekan tombol untuk lompat halaman. Cocok dibuka di PC maupun HP.
-                </div>
-            </div>
-        </aside>
+<div class="topbar">
+  <span>ML Cheat Sheet</span>
+  <button onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Menu</button>
+</div>
 
-        <div id="main-content-panel" class="lg:col-span-3 space-y-8">
-            
-            <div id="view-materi" class="space-y-8">
-                
-                <section id="sec-notasi" class="bg-[#1e293b] rounded-2xl border border-slate-800 overflow-hidden shadow-xl scroll-mt-24">
-                    <div class="p-5 border-b border-slate-800 bg-gradient-to-r from-blue-900/20 to-transparent">
-                        <span class="text-xs font-bold text-blue-500 bg-blue-500/10 px-2.5 py-1 rounded-full uppercase tracking-wider">Modul 01</span>
-                        <h2 class="text-lg font-bold text-white mt-2 flex items-center gap-2">
-                            <i class="fa-solid fa-calculator text-blue-500"></i> Konversi Infix, Prefix, & Postfix
-                        </h2>
-                    </div>
-                    <div class="p-6 space-y-6">
-                        <p class="text-xs text-slate-400 leading-relaxed">
-                            Notasi aritmatika dibedakan berdasarkan penempatan posisi <b>operator</b> terhadap <b>operand</b> (variabel/angka). Pemahaman penempatan stack sangat krusial untuk bagian coding ujian tertulis.
-                        </p>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">ML</div>
+      <div class="brand-text">Cheat Sheet<br>UAS Machine Learning</div>
+    </div>
+    <div class="brand-sub">Pertemuan 9 – 15</div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800">
-                                <span class="text-[10px] uppercase tracking-wider font-bold text-emerald-400">Infix (Standard)</span>
-                                <div class="code-font text-md text-white font-semibold mt-1">A + B</div>
-                                <p class="text-[11px] text-slate-500 mt-1">Operator berada di tengah kedua operand.</p>
-                            </div>
-                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800">
-                                <span class="text-[10px] uppercase tracking-wider font-bold text-amber-400">Prefix (Polish)</span>
-                                <div class="code-font text-md text-white font-semibold mt-1">+ A B</div>
-                                <p class="text-[11px] text-slate-500 mt-1">Operator dipindah ke depan kedua operand.</p>
-                            </div>
-                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800">
-                                <span class="text-[10px] uppercase tracking-wider font-bold text-rose-400">Postfix (Reverse Polish)</span>
-                                <div class="code-font text-md text-white font-semibold mt-1">A B +</div>
-                                <p class="text-[11px] text-slate-500 mt-1">Operator dipindah ke belakang kedua operand.</p>
-                            </div>
-                        </div>
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8688a3" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search" type="text" placeholder="Cari istilah, rumus, algoritma...">
+    </div>
 
-                        <div class="bg-slate-900/60 rounded-xl p-4 border border-slate-800">
-                            <h3 class="text-xs font-bold text-slate-300 mb-2 flex items-center gap-1.5">
-                                <i class="fa-solid fa-arrow-up-9-1 text-blue-500"></i> Aturan Precedence (Derajat Operator)
-                            </h3>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-left text-xs">
-                                    <thead>
-                                        <tr class="text-slate-500 border-b border-slate-800">
-                                            <th class="pb-2">Operator</th>
-                                            <th class="pb-2">Deskripsi</th>
-                                            <th class="pb-2 text-right">Arah Asosiatif</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-800/50 text-slate-300 font-mono">
-                                        <tr>
-                                            <td class="py-2 text-blue-400 font-bold">^</td>
-                                            <td class="py-2">Pangkat (Tertinggi)</td>
-                                            <td class="py-2 text-right">Kanan ke Kiri</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-2 text-amber-400 font-bold">* /</td>
-                                            <td class="py-2">Perkalian / Pembagian</td>
-                                            <td class="py-2 text-right">Kiri ke Kanan</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-2 text-rose-400 font-bold">+ -</td>
-                                            <td class="py-2">Penjumlahan / Pengurangan</td>
-                                            <td class="py-2 text-right">Kiri ke Kanan</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+    <nav class="navlist" id="navlist">
+      <a class="nav-item" href="#beranda" data-target="beranda"><span class="nav-tag">•</span> Beranda</a>
 
-                        <div class="bg-blue-950/30 border border-blue-900/60 rounded-xl p-4">
-                            <span class="text-xs font-bold text-blue-400 block mb-1"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Trik Cepat Manual (Metode Tanda Kurung)</span>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Selesaikan ekspresi dengan memberi tanda kurung ketat berdasarkan urutan derajat matematika: <br>
-                                Kasus: <code class="text-yellow-400 code-font">A + B * C</code> menjadi <code class="text-emerald-400 code-font">(A + (B * C))</code>.
-                            </p>
-                            <ul class="text-[11px] text-slate-400 mt-2 list-disc pl-4 space-y-1">
-                                <li><b>Mencari Prefix:</b> Pindahkan operator ke sisi kiri setiap kurung pasangannya &rarr; <code class="code-font text-slate-200">+ A * B C</code></li>
-                                <li><b>Mencari Postfix:</b> Pindahkan operator ke sisi kanan setiap kurung pasangannya &rarr; <code class="code-font text-slate-200">A B C * +</code></li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+      <div class="nav-group-label">Materi UAS</div>
+      <a class="nav-item" href="#deep-learning" data-target="deep-learning"><span class="nav-tag">P09</span> Deep Learning <span class="nav-check" data-key="dl" onclick="toggleCheck(event,this)"></span></a>
+      <a class="nav-item" href="#unsupervised" data-target="unsupervised"><span class="nav-tag">P10–11</span> Unsupervised Learning <span class="nav-check" data-key="un" onclick="toggleCheck(event,this)"></span></a>
+      <a class="nav-item" href="#instance-based" data-target="instance-based"><span class="nav-tag">P12</span> Instance-Based Learning <span class="nav-check" data-key="ib" onclick="toggleCheck(event,this)"></span></a>
+      <a class="nav-item" href="#hmm" data-target="hmm"><span class="nav-tag">P13</span> Hidden Markov Model <span class="nav-check" data-key="hmm" onclick="toggleCheck(event,this)"></span></a>
+      <a class="nav-item" href="#reinforcement" data-target="reinforcement"><span class="nav-tag">P14</span> Reinforcement Learning <span class="nav-check" data-key="rl" onclick="toggleCheck(event,this)"></span></a>
+      <a class="nav-item" href="#ensemble" data-target="ensemble"><span class="nav-tag">P15</span> Ensemble Learning <span class="nav-check" data-key="en" onclick="toggleCheck(event,this)"></span></a>
 
-                <section id="sec-tree" class="bg-[#1e293b] rounded-2xl border border-slate-800 overflow-hidden shadow-xl scroll-mt-24">
-                    <div class="p-5 border-b border-slate-800 bg-gradient-to-r from-emerald-900/20 to-transparent">
-                        <span class="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-full uppercase tracking-wider">Modul 02</span>
-                        <h2 class="text-lg font-bold text-white mt-2 flex items-center gap-2">
-                            <i class="fa-solid fa-network-wired text-emerald-500"></i> Tree & Binary Search Tree (BST)
-                        </h2>
-                    </div>
-                    <div class="p-6 space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="space-y-2">
-                                <h3 class="text-xs font-bold text-white">Prinsip Binary Search Tree (BST):</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">
-                                    Struktur data hirarki bercabang dua di mana setiap simpul anak di sebelah <b>KIRI</b> selalu bernilai lebih kecil dari <i>Parent</i>, dan simpul anak di sebelah <b>KANAN</b> selalu bernilai lebih besar.
-                                </p>
-                                <div class="bg-[#0f172a] p-3 rounded-xl border border-slate-800 font-mono text-[11px] text-emerald-400">
-                                    Aturan Penyisipan: <br>
-                                    - Node &lt; Current: Masuk Kiri <br>
-                                    - Node &gt; Current: Masuk Kanan
-                                </div>
-                            </div>
-                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800 flex flex-col items-center justify-center text-xs">
-                                <span class="text-[10px] text-slate-500 font-mono mb-2">Visual Sederhana BST</span>
-                                <div class="flex flex-col items-center gap-2 font-mono">
-                                    <div class="bg-emerald-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">50</div>
-                                    <div class="flex gap-8">
-                                        <div class="flex flex-col items-center">
-                                            <div class="text-slate-600 text-[10px]">&swarr;</div>
-                                            <div class="bg-slate-800 border border-slate-700 text-slate-300 w-7 h-7 rounded-full flex items-center justify-center font-bold">30</div>
-                                        </div>
-                                        <div class="flex flex-col items-center">
-                                            <div class="text-slate-600 text-[10px]">&searr;</div>
-                                            <div class="bg-slate-800 border border-slate-700 text-slate-300 w-7 h-7 rounded-full flex items-center justify-center font-bold">70</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+      <div class="nav-group-label">Tinjauan Cepat</div>
+      <a class="nav-item" href="#ringkasan" data-target="ringkasan"><span class="nav-tag">★</span> Tabel Perbandingan</a>
+      <a class="nav-item" href="#tips" data-target="tips"><span class="nav-tag">!</span> Tips Ujian</a>
+    </nav>
 
-                        <div class="space-y-3">
-                            <h3 class="text-xs font-bold text-white">Algoritma Penelusuran (Tree Traversal):</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-                                <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-800">
-                                    <span class="font-bold text-blue-400 block mb-1">Pre-Order</span>
-                                    <div class="font-mono text-slate-300 text-[11px]">Root &rarr; Kiri &rarr; Kanan</div>
-                                    <p class="text-[11px] text-slate-500 mt-1">Cetak data sesaat setelah node dikunjungi.</p>
-                                </div>
-                                <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-800">
-                                    <span class="font-bold text-emerald-400 block mb-1">In-Order</span>
-                                    <div class="font-mono text-slate-300 text-[11px]">Kiri &rarr; Root &rarr; Kanan</div>
-                                    <p class="text-[11px] text-slate-400 mt-1 italic font-medium text-emerald-500/80">*UAS Hack: Hasil traversal ini di BST pasti otomatis berurutan menaik!</p>
-                                </div>
-                                <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-800">
-                                    <span class="font-bold text-rose-400 block mb-1">Post-Order</span>
-                                    <div class="font-mono text-slate-300 text-[11px]">Kiri &rarr; Kanan &rarr; Root</div>
-                                    <p class="text-[11px] text-slate-500 mt-1">Root utama selalu dicetak pada urutan paling akhir.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+    <div class="sidebar-footer">Klik lingkaran di samping topik untuk menandai yang sudah kamu pelajari. Progres tidak tersimpan setelah halaman ditutup — screenshot atau cetak jika perlu.</div>
+  </aside>
 
-                <section id="sec-graph" class="bg-[#1e293b] rounded-2xl border border-slate-800 overflow-hidden shadow-xl scroll-mt-24">
-                    <div class="p-5 border-b border-slate-800 bg-gradient-to-r from-purple-900/20 to-transparent">
-                        <span class="text-xs font-bold text-purple-500 bg-purple-500/10 px-2.5 py-1 rounded-full uppercase tracking-wider">Modul 03</span>
-                        <h2 class="text-lg font-bold text-white mt-2 flex items-center gap-2">
-                            <i class="fa-solid fa-circle-nodes text-purple-500"></i> Graph Traversal (BFS & DFS)
-                        </h2>
-                    </div>
-                    <div class="p-6 space-y-6">
-                        <p class="text-xs text-slate-400 leading-relaxed">
-                            Penelusuran graf digunakan untuk mengunjungi simpul-simpul berjejaring. Karakteristik utama yang sering keluar di pilihan ganda UAS adalah perbedaan <b>Struktur Data Bantu</b> internalnya.
-                        </p>
+  <main>
+    <div class="hero" id="beranda">
+      <div class="eyebrow">Persiapan UAS · Machine Learning</div>
+      <h1 class="title">Semua materi Deep Learning sampai Ensemble Learning, dalam satu halaman.</h1>
+      <p class="lead">Ringkasan konsep inti, rumus, algoritma, dan tabel perbandingan untuk enam topik terakhir sebelum ujian: Deep Learning, Unsupervised Learning, Instance-Based Learning, Hidden Markov Model, Reinforcement Learning, dan Ensemble Learning.</p>
+      <div class="hero-meta">
+        <span class="chip">6 Topik</span>
+        <span class="chip">Pertemuan 9–15</span>
+        <span class="chip">Rumus + Algoritma + Tabel</span>
+      </div>
+    </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800 space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-bold text-blue-400">Breadth-First Search (BFS)</span>
-                                    <span class="bg-blue-500/10 text-blue-400 text-[10px] font-mono px-2 py-0.5 rounded">Queue (FIFO)</span>
-                                </div>
-                                <p class="text-[11px] text-slate-400">
-                                    Sistem penelusuran secara melebar horizontal. Mengunjungi seluruh tetangga terdekat yang terhubung langsung sebelum masuk ke tingkatan berikutnya.
-                                </p>
-                                <div class="text-[11px] text-slate-500 bg-slate-900 p-2 rounded border border-slate-800 font-mono">
-                                    Kegunaan: Mencari rute terpendek graf tanpa bobot.
-                                </div>
-                            </div>
-                            <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800 space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-bold text-purple-400">Depth-First Search (DFS)</span>
-                                    <span class="bg-purple-500/10 text-purple-400 text-[10px] font-mono px-2 py-0.5 rounded">Stack (LIFO)</span>
-                                </div>
-                                <p class="text-[11px] text-slate-400">
-                                    Sistem penelusuran mendalam vertikal. Menelusuri satu cabang hingga menemukan jalan buntu (mentok), lalu mundur kembali (backtrack) ke cabang sebelumnya.
-                                </p>
-                                <div class="text-[11px] text-slate-500 bg-slate-900 p-2 rounded border border-slate-800 font-mono">
-                                    Kegunaan: Deteksi siklus graf, labirin topologi.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
+    <!-- ============ 9. DEEP LEARNING ============ -->
+    <section id="deep-learning">
+      <div class="section-head">
+        <span class="week-badge">P09</span>
+        <h2 class="sec-title">Deep Learning</h2>
+      </div>
+      <p class="sec-desc">Jaringan saraf tiruan berlapis (multi-layer) yang belajar merepresentasikan data secara hierarkis, dari fitur sederhana ke fitur kompleks.</p>
 
-            <div id="view-simulator" class="space-y-6 hidden">
-                <div class="bg-[#1e293b] rounded-2xl border border-slate-800 p-6 shadow-xl">
-                    <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-4">
-                        <div>
-                            <h2 class="text-md font-bold text-white">Live Simulator / Mandiri</h2>
-                            <p class="text-xs text-slate-400">Uji kemampuan instan Anda di sini untuk melihat kesiapan nilai.</p>
-                        </div>
-                        <div id="score-badge" class="bg-blue-600/10 text-blue-400 border border-blue-500/20 px-3 py-1 rounded-xl text-xs font-bold">
-                            Skor: <span id="current-score">0</span> / 3
-                        </div>
-                    </div>
+      <div class="card">
+        <h3><span class="num">01</span>Neuron & Multi-Layer Perceptron (MLP)</h3>
+        <p>Satu neuron menghitung jumlah berbobot dari input lalu melewatkannya ke <b>fungsi aktivasi</b>. MLP menyusun neuron dalam <b>input layer → hidden layer(s) → output layer</b>, di mana tiap layer terhubung penuh (fully connected) ke layer berikutnya.</p>
+        <div class="formula"><span class="label">Output neuron</span>z = Σ(w_i · x_i) + b
+a = f(z)   → f = fungsi aktivasi</div>
+      </div>
 
-                    <div id="quiz-container" class="space-y-4">
-                        <div class="quiz-card space-y-3" id="q-1">
-                            <span class="text-[10px] font-mono font-bold text-blue-400 block">Pertanyaan 1 dari 3 &bull; Notasi</span>
-                            <p class="text-xs text-white font-medium">Bentuk postfix yang valid dari ekspresi infix berikut: <code class="text-amber-400 font-mono">(A + B) * C</code> adalah?</p>
-                            <div class="grid grid-cols-1 gap-2 text-xs">
-                                <button onclick="checkAnswer(1, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">A B C * +</button>
-                                <button onclick="checkAnswer(1, true, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">A B + C *</button>
-                                <button onclick="checkAnswer(1, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">* + A B C</button>
-                            </div>
-                            <p class="explanation-box text-[11px] text-slate-400 bg-slate-900 p-2.5 rounded-lg border border-slate-800 hidden"></p>
-                        </div>
+      <div class="card">
+        <h3><span class="num">02</span>Fungsi Aktivasi</h3>
+        <table>
+          <tr><th>Fungsi</th><th>Rumus</th><th>Kegunaan</th></tr>
+          <tr><td>Sigmoid</td><td><code>σ(x) = 1 / (1 + e^-x)</code></td><td>Output biner (0–1), rentan vanishing gradient</td></tr>
+          <tr><td>Tanh</td><td><code>(e^x − e^-x) / (e^x + e^-x)</code></td><td>Output −1 s.d. 1, zero-centered</td></tr>
+          <tr><td>ReLU</td><td><code>f(x) = max(0, x)</code></td><td>Default hidden layer, cepat & efisien</td></tr>
+          <tr><td>Leaky ReLU</td><td><code>x jika x>0, else αx</code></td><td>Mengatasi "dying ReLU"</td></tr>
+          <tr><td>Softmax</td><td><code>e^xi / Σ e^xj</code></td><td>Output layer klasifikasi multi-kelas</td></tr>
+        </table>
+        <div class="tip"><b>Sering ditanya:</b> mengapa ReLU lebih disukai dari Sigmoid di hidden layer? Karena Sigmoid menyebabkan gradien mengecil drastis (vanishing gradient) saat backpropagation melewati banyak layer, sedangkan ReLU tidak menjenuh untuk nilai positif.</div>
+      </div>
 
-                        <div class="quiz-card space-y-3 hidden" id="q-2">
-                            <span class="text-[10px] font-mono font-bold text-emerald-400 block">Pertanyaan 2 dari 3 &bull; Tree</span>
-                            <p class="text-xs text-white font-medium">Bila suatu BST dibaca dengan urutan penelusuran <b>In-Order Traversal</b>, maka output urutan data angka yang tercetak pasti berupa?</p>
-                            <div class="grid grid-cols-1 gap-2 text-xs">
-                                <button onclick="checkAnswer(2, true, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">Terurut dari nilai terkecil ke terbesar</button>
-                                <button onclick="checkAnswer(2, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-allTerurut acak tidak menentu</button>
-                                <button onclick="checkAnswer(2, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">Nilai root tercetak pertama kali</button>
-                            </div>
-                            <p class="explanation-box text-[11px] text-slate-400 bg-slate-900 p-2.5 rounded-lg border border-slate-800 hidden"></p>
-                        </div>
+      <div class="card">
+        <h3><span class="num">03</span>Forward Propagation, Loss, & Backpropagation</h3>
+        <p><b>Forward propagation</b>: data mengalir dari input ke output menghasilkan prediksi ŷ. <b>Loss function</b> mengukur selisih ŷ dengan label asli y. <b>Backpropagation</b> menghitung gradien loss terhadap tiap bobot menggunakan aturan rantai (chain rule), lalu bobot diperbarui via gradient descent.</p>
+        <div class="formula"><span class="label">Loss</span>MSE (regresi)      = (1/n) Σ (y − ŷ)²
+Cross-Entropy (klasifikasi) = − Σ y·log(ŷ)</div>
+        <div class="formula"><span class="label">Update bobot (gradient descent)</span>w := w − η · ∂L/∂w
+η = learning rate</div>
+      </div>
 
-                        <div class="quiz-card space-y-3 hidden" id="q-3">
-                            <span class="text-[10px] font-mono font-bold text-purple-400 block">Pertanyaan 3 dari 3 &bull; Graph</span>
-                            <p class="text-xs text-white font-medium">Struktur data bantu internal yang wajib digunakan sewaktu mengimplementasikan algoritma penelusuran DFS (Depth-First Search) adalah?</p>
-                            <div class="grid grid-cols-1 gap-2 text-xs">
-                                <button onclick="checkAnswer(3, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">Queue (Antrean / FIFO)</button>
-                                <button onclick="checkAnswer(3, true, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">Stack (Tumpukan / LIFO)</button>
-                                <button onclick="checkAnswer(3, false, this)" class="w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all">Linked List Melingkar</button>
-                            </div>
-                            <p class="explanation-box text-[11px] text-slate-400 bg-slate-900 p-2.5 rounded-lg border border-slate-800 hidden"></p>
-                        </div>
-                    </div>
+      <div class="card">
+        <h3><span class="num">04</span>Optimizer</h3>
+        <ul>
+          <li><b>SGD</b> — update per batch kecil, bisa berosilasi.</li>
+          <li><b>Momentum</b> — menambah "inersia" dari update sebelumnya agar konvergen lebih stabil.</li>
+          <li><b>RMSProp</b> — menyesuaikan learning rate per parameter berdasarkan rata-rata kuadrat gradien.</li>
+          <li><b>Adam</b> — gabungan Momentum + RMSProp, paling umum dipakai default saat ini.</li>
+        </ul>
+      </div>
 
-                    <div class="mt-6 flex justify-between items-center pt-4 border-t border-slate-800 text-xs">
-                        <button id="btn-reset-quiz" onclick="resetQuiz()" class="text-slate-400 hover:text-white transition-all">Ulangi Tes</button>
-                        <button id="btn-next-question" onclick="nextQuestion()" class="bg-blue-600 text-white px-4 py-2 rounded-xl font-medium shadow-md shadow-blue-500/10 hidden">Pertanyaan Selanjutnya &rarr;</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+      <div class="card">
+        <h3><span class="num">05</span>Regularisasi (Mencegah Overfitting)</h3>
+        <ul>
+          <li><b>L1 / L2 Regularization</b> — menambahkan penalti pada bobot besar di loss function.</li>
+          <li><b>Dropout</b> — mematikan sebagian neuron secara acak saat training agar model tidak bergantung pada neuron tertentu.</li>
+          <li><b>Batch Normalization</b> — menormalkan output tiap layer agar training lebih stabil & cepat.</li>
+          <li><b>Early Stopping</b> — menghentikan training saat validation loss mulai naik.</li>
+        </ul>
+      </div>
 
-    <footer class="bg-[#1e293b]/40 border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500 mt-auto">
-        <div class="max-w-6xl mx-auto">
-            &copy; 2026 Sandbox Premium Simulator. Bebas digunakan untuk keperluan belajar UAS.
-        </div>
-    </footer>
+      <div class="card">
+        <h3><span class="num">06</span>CNN (Convolutional Neural Network)</h3>
+        <p>Dirancang untuk data grid seperti gambar. <b>Convolution layer</b> menggeser filter/kernel kecil ke seluruh gambar untuk mengekstrak fitur (tepi, tekstur, pola). <b>Pooling layer</b> (max/average) mengurangi dimensi spasial sekaligus mempertahankan fitur penting.</p>
+        <div class="formula"><span class="label">Ukuran output convolution</span>Output = ((W − F + 2P) / S) + 1
+W=ukuran input, F=ukuran filter, P=padding, S=stride</div>
+      </div>
 
-    <script>
-        let currentActiveQuestion = 1;
-        let score = 0;
-        let answeredQuestionsList = {};
+      <div class="card">
+        <h3><span class="num">07</span>RNN & LSTM</h3>
+        <p><b>RNN (Recurrent Neural Network)</b> dirancang untuk data sekuensial (teks, time series) — output tiap langkah waktu dipengaruhi input saat ini <i>dan</i> hidden state sebelumnya. RNN standar rentan <b>vanishing/exploding gradient</b> pada sekuens panjang.</p>
+        <p><b>LSTM (Long Short-Term Memory)</b> mengatasi ini dengan cell state dan tiga gate:</p>
+        <ul>
+          <li><b>Forget gate</b> — memutuskan informasi lama mana yang dibuang.</li>
+          <li><b>Input gate</b> — memutuskan informasi baru mana yang disimpan.</li>
+          <li><b>Output gate</b> — memutuskan bagian cell state mana yang dijadikan output.</li>
+        </ul>
+      </div>
 
-        // Pengontrol Tab Atas
-        function switchTab(target) {
-            const btnMateri = document.getElementById('btn-materi');
-            const btnSim = document.getElementById('btn-simulator');
-            const viewMateri = document.getElementById('view-materi');
-            const viewSim = document.getElementById('view-simulator');
-            const sidebarMenu = document.getElementById('sidebar-menu');
-            const mainPanel = document.getElementById('main-content-panel');
+      <div class="card">
+        <h3><span class="num">08</span>Kapan Pakai Arsitektur Apa</h3>
+        <table>
+          <tr><th>Arsitektur</th><th>Tipe Data</th><th>Contoh Kasus</th></tr>
+          <tr><td>MLP</td><td>Tabular</td><td>Prediksi harga rumah</td></tr>
+          <tr><td>CNN</td><td>Gambar / grid</td><td>Klasifikasi citra, deteksi objek</td></tr>
+          <tr><td>RNN / LSTM</td><td>Sekuensial</td><td>Teks, time series, ucapan</td></tr>
+        </table>
+      </div>
+    </section>
 
-            if (target === 'materi') {
-                btnMateri.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 bg-blue-600 text-white shadow-md";
-                btnSim.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 text-slate-400 hover:text-slate-200";
-                viewMateri.classList.remove('hidden');
-                viewSim.classList.add('hidden');
-                sidebarMenu.classList.remove('hidden');
-                mainPanel.className = "lg:col-span-3 space-y-8";
-            } else {
-                btnSim.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 bg-blue-600 text-white shadow-md";
-                btnMateri.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 text-slate-400 hover:text-slate-200";
-                viewMateri.classList.add('hidden');
-                viewSim.classList.remove('hidden');
-                sidebarMenu.classList.add('hidden');
-                mainPanel.className = "lg:col-span-4 max-w-2xl mx-auto w-full space-y-6";
-            }
-        }
+    <!-- ============ 10-11. UNSUPERVISED ============ -->
+    <section id="unsupervised">
+      <div class="section-head">
+        <span class="week-badge">P10–11</span>
+        <h2 class="sec-title">Unsupervised Learning</h2>
+      </div>
+      <p class="sec-desc">Belajar dari data <b>tanpa label</b> — tujuannya menemukan struktur, pola, atau kelompok tersembunyi dalam data.</p>
 
-        // Smooth Scroll untuk Menu Navigasi Samping
-        function scrollToSection(id) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth' });
-                // Ubah gaya tombol aktif
-                const buttons = document.querySelectorAll('#sidebar-menu nav button');
-                buttons.forEach(btn => {
-                    btn.className = "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-medium text-slate-400 hover:bg-slate-800/40 hover:text-slate-200 transition-all";
-                });
-                event.currentTarget.className = "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-xs font-medium bg-slate-800/60 text-blue-400 border border-slate-700/50 transition-all";
-            }
-        }
+      <div class="card">
+        <h3><span class="num">01</span>K-Means Clustering</h3>
+        <p>Mengelompokkan data ke dalam <b>K</b> cluster berdasarkan kedekatan jarak ke centroid.</p>
+        <ol class="steps">
+          <li>Tentukan jumlah cluster K, inisialisasi K centroid secara acak.</li>
+          <li>Assign setiap titik data ke centroid terdekat.</li>
+          <li>Update posisi centroid = rata-rata seluruh anggota cluster tersebut.</li>
+          <li>Ulangi langkah 2–3 sampai centroid tidak berubah (konvergen).</li>
+        </ol>
+        <div class="tip"><b>Pemilihan K:</b> gunakan <b>Elbow Method</b> (plot WCSS/inertia vs K, cari titik "siku") atau <b>Silhouette Score</b> (semakin mendekati 1, semakin baik pemisahan cluster).</div>
+      </div>
 
-        // Logika Simulator Kuis Interaktif
-        function checkAnswer(questionNum, isCorrect, clickedElement) {
-            if (answeredQuestionsList[questionNum]) return; // Cegah klik berulang
-            answeredQuestionsList[questionNum] = true;
+      <div class="card">
+        <h3><span class="num">02</span>Hierarchical Clustering</h3>
+        <p><b>Agglomerative</b> (bottom-up): tiap titik mulai sebagai cluster sendiri, lalu digabung berulang hingga tersisa satu cluster besar. <b>Divisive</b> (top-down): kebalikannya, mulai dari satu cluster besar lalu dipecah. Hasilnya divisualisasikan sebagai <b>dendrogram</b>.</p>
+        <table>
+          <tr><th>Linkage</th><th>Definisi Jarak Antar Cluster</th></tr>
+          <tr><td>Single</td><td>Jarak minimum antar anggota dua cluster</td></tr>
+          <tr><td>Complete</td><td>Jarak maksimum antar anggota dua cluster</td></tr>
+          <tr><td>Average</td><td>Rata-rata jarak semua pasangan anggota</td></tr>
+          <tr><td>Ward</td><td>Minimalkan peningkatan variansi within-cluster</td></tr>
+        </table>
+      </div>
 
-            const card = document.getElementById(`q-${questionNum}`);
-            const buttons = card.querySelectorAll('button');
-            const expBox = card.querySelector('.explanation-box');
+      <div class="card">
+        <h3><span class="num">03</span>DBSCAN (Density-Based Clustering)</h3>
+        <p>Mengelompokkan berdasarkan kepadatan titik, tidak perlu menentukan jumlah cluster di awal, dan bisa mendeteksi <b>noise/outlier</b>.</p>
+        <ul>
+          <li><b>Core point</b> — punya ≥ minPts tetangga dalam radius ε (epsilon).</li>
+          <li><b>Border point</b> — dalam radius ε dari core point, tapi tetangganya kurang dari minPts.</li>
+          <li><b>Noise point</b> — bukan keduanya, dianggap outlier.</li>
+        </ul>
+        <div class="tip"><b>Kelebihan DBSCAN vs K-Means:</b> bisa menemukan cluster berbentuk tidak beraturan dan tahan terhadap outlier, tapi sensitif terhadap pemilihan parameter ε dan minPts.</div>
+      </div>
 
-            buttons.forEach(btn => {
-                btn.disabled = true;
-                if (btn === clickedElement) {
-                    if (isCorrect) {
-                        btn.className = "w-full bg-emerald-600/20 border border-emerald-500 text-emerald-400 p-3 rounded-xl text-left transition-all font-medium";
-                        score++;
-                        document.getElementById('current-score').innerText = score;
-                    } else {
-                        btn.className = "w-full bg-rose-600/20 border border-rose-500 text-rose-400 p-3 rounded-xl text-left transition-all font-medium";
-                    }
-                } else {
-                    btn.className = "w-full bg-[#0f172a]/40 border border-slate-800/50 text-slate-600 p-3 rounded-xl text-left transition-all cursor-not-allowed";
-                }
-            });
+      <div class="card">
+        <h3><span class="num">04</span>Dimensionality Reduction: PCA & t-SNE</h3>
+        <p><b>PCA (Principal Component Analysis)</b> mencari sumbu (komponen utama) yang memaksimalkan variansi data, dihitung dari <b>eigenvector</b> matriks kovarians data. Digunakan untuk kompresi fitur & mengurangi noise.</p>
+        <p><b>t-SNE</b> mereduksi dimensi tinggi ke 2D/3D khusus untuk <b>visualisasi</b>, mempertahankan kedekatan lokal antar titik — tidak cocok untuk preprocessing model prediktif karena non-deterministik dan berat secara komputasi.</p>
+      </div>
 
-            // Tampilkan Rationale / Penjelasan jawaban
-            expBox.classList.remove('hidden');
-            if (questionNum === 1) {
-                expBox.innerText = "Penjelasan: Bagian di dalam kurung (A + B) diubah terlebih dahulu menjadi AB+. Lalu kalikan hasilnya dengan C sehingga menjadi AB+C*.";
-            } else if (questionNum === 2) {
-                expBox.innerText = "Penjelasan: Karakteristik utama Binary Search Tree (BST) jika dibaca dengan urutan Kiri-Root-Kanan (In-Order) selalu mengurutkan angka dari kecil ke besar.";
-            } else if (questionNum === 3) {
-                expBox.innerText = "Penjelasan: DFS menyelami graf ke bawah hingga mentok memanfaatkan struktur LIFO (Last In First Out) dari Stack. Jika BFS baru memakai Queue.";
-            }
+      <div class="card">
+        <h3><span class="num">05</span>Association Rule Mining (Apriori)</h3>
+        <p>Menemukan aturan asosiasi antar item, contoh klasik: analisis keranjang belanja ("market basket analysis").</p>
+        <div class="formula"><span class="label">Metrik Apriori</span>Support(A)     = freq(A) / N
+Confidence(A→B) = Support(A∪B) / Support(A)
+Lift(A→B)       = Confidence(A→B) / Support(B)</div>
+        <p>Lift &gt; 1 berarti A dan B lebih sering muncul bersama dibanding jika independen (asosiasi positif).</p>
+      </div>
+    </section>
 
-            document.getElementById('btn-next-question').classList.remove('hidden');
-            if (questionNum === 3) {
-                document.getElementById('btn-next-question').innerText = "Kuis Selesai! 🎉";
-            }
-        }
+    <!-- ============ 12. INSTANCE BASED ============ -->
+    <section id="instance-based">
+      <div class="section-head">
+        <span class="week-badge">P12</span>
+        <h2 class="sec-title">Instance-Based Learning</h2>
+      </div>
+      <p class="sec-desc">Disebut juga <b>lazy learning</b> — tidak membangun model eksplisit saat training, melainkan menyimpan seluruh data dan membandingkannya langsung saat prediksi.</p>
 
-        function nextQuestion() {
-            if (currentActiveQuestion < 3) {
-                document.getElementById(`q-${currentActiveQuestion}`).classList.add('hidden');
-                currentActiveQuestion++;
-                document.getElementById(`q-${currentActiveQuestion}`).classList.remove('hidden');
-                document.getElementById('btn-next-question').classList.add('hidden');
-            }
-        }
+      <div class="card">
+        <h3><span class="num">01</span>K-Nearest Neighbors (KNN)</h3>
+        <p>Klasifikasi/regresi berdasarkan <b>K tetangga terdekat</b> dari titik data baru.</p>
+        <ul>
+          <li><b>Klasifikasi</b>: label = mayoritas (voting) label dari K tetangga terdekat.</li>
+          <li><b>Regresi</b>: nilai prediksi = rata-rata nilai K tetangga terdekat.</li>
+          <li><b>Weighted KNN</b>: tetangga yang lebih dekat diberi bobot lebih besar dalam voting.</li>
+        </ul>
+        <div class="tip"><b>Pemilihan K:</b> K kecil → sensitif terhadap noise (overfitting); K besar → keputusan terlalu general (underfitting). K biasanya dipilih ganjil untuk menghindari seri pada klasifikasi biner.</div>
+      </div>
 
-        function resetQuiz() {
-            currentActiveQuestion = 1;
-            score = 0;
-            answeredQuestionsList = {};
-            document.getElementById('current-score').innerText = "0";
-            document.getElementById('btn-next-question').innerText = "Pertanyaan Selanjutnya \u2192";
-            document.getElementById('btn-next-question').classList.add('hidden');
+      <div class="card">
+        <h3><span class="num">02</span>Metrik Jarak</h3>
+        <table>
+          <tr><th>Metrik</th><th>Rumus</th></tr>
+          <tr><td>Euclidean</td><td><code>√ Σ(xi − yi)²</code></td></tr>
+          <tr><td>Manhattan</td><td><code>Σ |xi − yi|</code></td></tr>
+          <tr><td>Minkowski</td><td><code>(Σ|xi − yi|^p)^(1/p)</code> — generalisasi (p=1→Manhattan, p=2→Euclidean)</td></tr>
+          <tr><td>Hamming</td><td>Jumlah posisi atribut yang berbeda (data kategorikal)</td></tr>
+        </table>
+      </div>
 
-            for (let i = 1; i <= 3; i++) {
-                const card = document.getElementById(`q-${i}`);
-                if (i === 1) card.classList.remove('hidden');
-                else card.classList.add('hidden');
+      <div class="card">
+        <h3><span class="num">03</span>Lazy Learning vs Eager Learning</h3>
+        <table>
+          <tr><th></th><th>Lazy Learning (contoh: KNN)</th><th>Eager Learning (contoh: Decision Tree)</th></tr>
+          <tr><td>Proses training</td><td>Hanya menyimpan data</td><td>Membentuk model eksplisit</td></tr>
+          <tr><td>Waktu training</td><td>Sangat cepat, O(1)</td><td>Bisa lama</td></tr>
+          <tr><td>Waktu prediksi</td><td>Lambat, harus bandingkan ke semua data</td><td>Cepat</td></tr>
+        </table>
+      </div>
 
-                card.querySelector('.explanation-box').classList.add('hidden');
-                const buttons = card.querySelectorAll('button');
-                buttons.forEach(btn => {
-                    btn.disabled = false;
-                    btn.className = "w-full bg-[#0f172a] hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-left transition-all";
-                });
-            }
-        }
-    </script>
+      <div class="card">
+        <h3><span class="num">04</span>Curse of Dimensionality</h3>
+        <p>Saat jumlah fitur/dimensi bertambah banyak, jarak antar titik data menjadi semakin "seragam" sehingga konsep tetangga terdekat kehilangan makna — performa KNN dan metode berbasis jarak lainnya menurun. Solusi: reduksi dimensi (PCA) atau feature selection sebelum menerapkan KNN.</p>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">05</span>Locally Weighted Regression</h3>
+        <p>Variasi regresi yang membentuk model linear sederhana secara lokal di sekitar titik query, dengan bobot lebih besar untuk data training yang lebih dekat ke titik tersebut — menggabungkan sifat lazy learning dengan regresi.</p>
+      </div>
+    </section>
+
+    <!-- ============ 13. HMM ============ -->
+    <section id="hmm">
+      <div class="section-head">
+        <span class="week-badge">P13</span>
+        <h2 class="sec-title">Hidden Markov Model (HMM)</h2>
+      </div>
+      <p class="sec-desc">Model probabilistik untuk data sekuensial, di mana <b>state sebenarnya tersembunyi</b> dan hanya observasi yang dapat dilihat.</p>
+
+      <div class="card">
+        <h3><span class="num">01</span>Komponen HMM</h3>
+        <p>Sebuah HMM didefinisikan sebagai λ = (A, B, π):</p>
+        <ul>
+          <li><b>State tersembunyi (hidden states)</b> — kondisi yang tidak bisa diamati langsung.</li>
+          <li><b>Observasi (observations)</b> — data yang benar-benar terlihat/terukur.</li>
+          <li><b>A — matriks transisi</b>: probabilitas berpindah dari satu state ke state lain.</li>
+          <li><b>B — matriks emisi</b>: probabilitas menghasilkan observasi tertentu dari suatu state.</li>
+          <li><b>π — distribusi awal</b>: probabilitas state pada waktu awal.</li>
+        </ul>
+        <div class="tip"><b>Markov Assumption:</b> state saat ini hanya bergantung pada state sebelumnya (bukan seluruh riwayat state).</div>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">02</span>Tiga Masalah Utama HMM</h3>
+        <table>
+          <tr><th>Masalah</th><th>Pertanyaan</th><th>Algoritma</th></tr>
+          <tr><td><b>Evaluation</b></td><td>Berapa P(O|λ)? Seberapa mungkin urutan observasi O muncul dari model λ?</td><td>Forward Algorithm</td></tr>
+          <tr><td><b>Decoding</b></td><td>Urutan state tersembunyi apa yang paling mungkin menghasilkan O?</td><td>Viterbi Algorithm</td></tr>
+          <tr><td><b>Learning</b></td><td>Bagaimana estimasi parameter (A, B, π) terbaik dari data observasi?</td><td>Baum-Welch Algorithm</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">03</span>Detail Tiap Algoritma</h3>
+        <ul>
+          <li><b>Forward Algorithm</b> — dynamic programming, menjumlahkan probabilitas semua kemungkinan jalur state secara efisien (dibanding brute-force yang eksponensial).</li>
+          <li><b>Viterbi Algorithm</b> — mirip Forward tapi menggunakan operasi <b>max</b> bukan <b>sum</b>, untuk mencari satu jalur state paling mungkin (bukan total probabilitas semua jalur).</li>
+          <li><b>Baum-Welch Algorithm</b> — kasus khusus algoritma Expectation-Maximization (EM); secara iteratif memperbarui A, B, π hingga konvergen tanpa membutuhkan label state yang benar.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">04</span>Contoh Aplikasi</h3>
+        <p>Speech recognition (state = fonem tersembunyi, observasi = sinyal suara), Part-of-Speech tagging (state = kelas kata, observasi = kata), analisis urutan gen dalam bioinformatika.</p>
+      </div>
+    </section>
+
+    <!-- ============ 14. RL ============ -->
+    <section id="reinforcement">
+      <div class="section-head">
+        <span class="week-badge">P14</span>
+        <h2 class="sec-title">Reinforcement Learning</h2>
+      </div>
+      <p class="sec-desc">Agent belajar mengambil aksi terbaik melalui <b>trial-and-error</b> dengan berinteraksi pada suatu environment, dipandu oleh sinyal reward.</p>
+
+      <div class="card">
+        <h3><span class="num">01</span>Komponen Dasar</h3>
+        <ul>
+          <li><b>Agent</b> — pengambil keputusan.</li>
+          <li><b>Environment</b> — dunia tempat agent beroperasi.</li>
+          <li><b>State (S)</b> — kondisi environment saat ini.</li>
+          <li><b>Action (A)</b> — pilihan yang bisa diambil agent.</li>
+          <li><b>Reward (R)</b> — umpan balik numerik atas suatu aksi.</li>
+          <li><b>Policy (π)</b> — strategi/pemetaan dari state ke action.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">02</span>Markov Decision Process (MDP)</h3>
+        <p>RL diformalkan sebagai MDP = (S, A, P, R, γ), dengan P = probabilitas transisi state, γ = discount factor (0–1) yang menentukan seberapa penting reward masa depan dibanding reward saat ini.</p>
+        <div class="formula"><span class="label">Return (total reward terdiskon)</span>G_t = R_t+1 + γR_t+2 + γ²R_t+3 + ...</div>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">03</span>Value Function & Bellman Equation</h3>
+        <div class="formula"><span class="label">Value function</span>V(s) = E[G_t | S_t = s]
+
+<span class="label">Q-function (action-value)</span>Q(s,a) = E[G_t | S_t = s, A_t = a]
+
+<span class="label">Persamaan Bellman</span>V(s) = Σ_a π(a|s) Σ_s' P(s'|s,a)[R + γV(s')]</div>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">04</span>Q-Learning vs SARSA</h3>
+        <table>
+          <tr><th></th><th>Q-Learning (off-policy)</th><th>SARSA (on-policy)</th></tr>
+          <tr><td>Update</td><td><code>Q(s,a) += α[R + γ·max Q(s',a') − Q(s,a)]</code></td><td><code>Q(s,a) += α[R + γ·Q(s',a') − Q(s,a)]</code></td></tr>
+          <tr><td>Aksi berikutnya</td><td>Selalu aksi terbaik (greedy)</td><td>Aksi yang benar-benar diambil policy</td></tr>
+          <tr><td>Sifat</td><td>Belajar dari kebijakan optimal, terlepas dari aksi yang dijalankan</td><td>Belajar dari pengalaman aktual policy saat ini</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">05</span>Eksplorasi vs Eksploitasi</h3>
+        <p>Trade-off inti dalam RL: <b>eksplorasi</b> (mencoba aksi baru untuk menemukan info lebih baik) vs <b>eksploitasi</b> (memilih aksi terbaik yang sudah diketahui).</p>
+        <div class="formula"><span class="label">Epsilon-greedy</span>Dengan probabilitas ε → pilih aksi acak (eksplorasi)
+Dengan probabilitas 1−ε → pilih aksi terbaik saat ini (eksploitasi)</div>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">06</span>Model-Based vs Model-Free</h3>
+        <p><b>Model-based</b>: agent punya/mempelajari model transisi P dan reward environment, lalu merencanakan aksi. <b>Model-free</b> (seperti Q-Learning, SARSA): agent belajar langsung dari pengalaman tanpa membangun model environment secara eksplisit.</p>
+      </div>
+    </section>
+
+    <!-- ============ 15. ENSEMBLE ============ -->
+    <section id="ensemble">
+      <div class="section-head">
+        <span class="week-badge">P15</span>
+        <h2 class="sec-title">Ensemble Learning</h2>
+      </div>
+      <p class="sec-desc">Menggabungkan beberapa model (base learner) untuk menghasilkan prediksi yang lebih akurat dan stabil dibanding satu model tunggal.</p>
+
+      <div class="card">
+        <h3><span class="num">01</span>Bagging (Bootstrap Aggregating)</h3>
+        <p>Melatih banyak model <b>secara paralel</b>, masing-masing pada subset data hasil <b>bootstrap sampling</b> (sampling with replacement). Hasil akhir digabung lewat voting (klasifikasi) atau rata-rata (regresi).</p>
+        <ul>
+          <li>Contoh utama: <b>Random Forest</b> — bagging pada Decision Tree, ditambah pemilihan subset fitur acak di tiap split.</li>
+          <li>Tujuan utama: <b>mengurangi variance</b> (mencegah overfitting dari model yang kompleks).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">02</span>Boosting</h3>
+        <p>Melatih model <b>secara berurutan (sequential)</b> — setiap model baru fokus memperbaiki kesalahan model sebelumnya, biasanya dengan memberi bobot lebih besar pada data yang salah diklasifikasi.</p>
+        <ul>
+          <li><b>AdaBoost</b> — menaikkan bobot sampel yang salah diprediksi di setiap iterasi.</li>
+          <li><b>Gradient Boosting</b> — tiap model baru dilatih untuk memprediksi <i>residual error</i> (gradien loss) dari model sebelumnya.</li>
+          <li><b>XGBoost</b> — implementasi gradient boosting yang dioptimalkan (regularisasi bawaan, lebih cepat & efisien).</li>
+          <li>Tujuan utama: <b>mengurangi bias</b> (memperbaiki model yang cenderung underfitting).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">03</span>Stacking</h3>
+        <p>Menggabungkan prediksi dari beberapa base model berbeda (mis. KNN, SVM, Decision Tree) sebagai <b>input fitur</b> untuk model lapisan kedua (<b>meta-learner</b>) yang mempelajari cara terbaik mengombinasikan prediksi-prediksi tersebut.</p>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">04</span>Voting Classifier</h3>
+        <table>
+          <tr><th>Tipe</th><th>Cara Kerja</th></tr>
+          <tr><td>Hard Voting</td><td>Label akhir = kelas mayoritas dari semua model</td></tr>
+          <tr><td>Soft Voting</td><td>Label akhir = kelas dengan rata-rata probabilitas tertinggi antar model</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">05</span>Bagging vs Boosting (Bias-Variance Tradeoff)</h3>
+        <table>
+          <tr><th></th><th>Bagging</th><th>Boosting</th></tr>
+          <tr><td>Cara training</td><td>Paralel, independen</td><td>Sequential, tiap model bergantung sebelumnya</td></tr>
+          <tr><td>Fokus</td><td>Mengurangi variance</td><td>Mengurangi bias</td></tr>
+          <tr><td>Sensitif outlier</td><td>Tidak terlalu</td><td>Cukup sensitif (bobot naik pada kesalahan)</td></tr>
+          <tr><td>Contoh</td><td>Random Forest</td><td>AdaBoost, Gradient Boosting, XGBoost</td></tr>
+        </table>
+        <div class="tip"><b>Sering ditanya:</b> kenapa Random Forest jarang overfitting meski terdiri dari banyak decision tree yang dalam? Karena tiap tree dilatih pada data & fitur berbeda (random), sehingga kesalahan masing-masing tree cenderung tidak berkorelasi dan saling menetralkan saat digabung (voting/rata-rata).</div>
+      </div>
+    </section>
+
+    <!-- ============ RINGKASAN ============ -->
+    <section id="ringkasan">
+      <div class="section-head">
+        <span class="week-badge">★</span>
+        <h2 class="sec-title">Tabel Perbandingan Cepat</h2>
+      </div>
+      <p class="sec-desc">Untuk review 10 menit terakhir sebelum masuk ruang ujian.</p>
+
+      <div class="card">
+        <table>
+          <tr><th>Topik</th><th>Jenis Learning</th><th>Algoritma / Konsep Kunci</th><th>Contoh Kasus</th></tr>
+          <tr><td>Deep Learning</td><td>Supervised (umumnya)</td><td>MLP, CNN, RNN/LSTM, Backpropagation</td><td>Gambar, teks, suara</td></tr>
+          <tr><td>Unsupervised Learning</td><td>Unsupervised</td><td>K-Means, Hierarchical, DBSCAN, PCA, Apriori</td><td>Segmentasi pelanggan, kompresi fitur</td></tr>
+          <tr><td>Instance-Based Learning</td><td>Supervised (lazy)</td><td>KNN, Locally Weighted Regression</td><td>Rekomendasi, deteksi kemiripan</td></tr>
+          <tr><td>Hidden Markov Model</td><td>Probabilistik / sekuensial</td><td>Forward, Viterbi, Baum-Welch</td><td>Speech recognition, POS tagging</td></tr>
+          <tr><td>Reinforcement Learning</td><td>Trial-and-error</td><td>Q-Learning, SARSA, Bellman Equation</td><td>Game AI, robotika, sistem kontrol</td></tr>
+          <tr><td>Ensemble Learning</td><td>Supervised (meta)</td><td>Bagging, Boosting, Stacking, Voting</td><td>Random Forest, XGBoost</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3><span class="num">△</span>Supervised vs Unsupervised vs Reinforcement — Cek Cepat</h3>
+        <table>
+          <tr><th></th><th>Supervised</th><th>Unsupervised</th><th>Reinforcement</th></tr>
+          <tr><td>Butuh label?</td><td>Ya</td><td>Tidak</td><td>Tidak (tapi ada reward)</td></tr>
+          <tr><td>Tujuan</td><td>Prediksi output dari input</td><td>Temukan struktur/pola</td><td>Maksimalkan reward jangka panjang</td></tr>
+          <tr><td>Contoh</td><td>Klasifikasi, regresi, Deep Learning, KNN</td><td>Clustering, PCA, Apriori</td><td>Q-Learning, SARSA</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ TIPS ============ -->
+    <section id="tips">
+      <div class="section-head">
+        <span class="week-badge">!</span>
+        <h2 class="sec-title">Tips Ujian</h2>
+      </div>
+      <div class="card">
+        <ul>
+          <li>Hafalkan <b>3 masalah HMM</b> beserta nama algoritmanya (Evaluation→Forward, Decoding→Viterbi, Learning→Baum-Welch) — ini paling sering muncul sebagai soal mencocokkan.</li>
+          <li>Pahami <b>alasan</b> di balik tiap teknik, bukan cuma nama — misalnya kenapa Dropout mencegah overfitting, atau kenapa Boosting mengurangi bias sementara Bagging mengurangi variance.</li>
+          <li>Latihan menghitung manual dengan angka kecil: satu iterasi K-Means, satu langkah update Q-Learning, atau menghitung Support/Confidence/Lift Apriori — soal hitungan sederhana sering keluar.</li>
+          <li>Buat tabel perbandingan sendiri di kertas coret-coretan sebelum ujian dimulai (mis. Bagging vs Boosting, Q-Learning vs SARSA) sebagai pemanasan mengingat.</li>
+          <li>Kalau soal berbentuk studi kasus, identifikasi dulu: <i>ada label atau tidak? data sekuensial atau tidak? butuh reward/lingkungan interaktif atau tidak?</i> — itu langsung mempersempit topik yang relevan.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div style="padding:0 64px 60px; max-width:920px; color:#8a8b9c; font-size:12.5px;">Dibuat sebagai bahan bantu belajar — selalu cek ulang dengan slide/catatan dosen untuk notasi atau penekanan yang mungkin berbeda. Semangat UAS-nya! 🎓</div>
+  </main>
+</div>
+
+<button class="backtotop" id="backtotop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  // scroll progress bar
+  const progress = document.getElementById('progress');
+  const backtotop = document.getElementById('backtotop');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progress.style.width = scrolled + '%';
+    backtotop.classList.toggle('show', h.scrollTop > 400);
+  });
+
+  // active nav on scroll
+  const navItems = document.querySelectorAll('.nav-item[data-target]');
+  const sections = [...navItems].map(n => document.getElementById(n.dataset.target)).filter(Boolean);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        navItems.forEach(n => n.classList.remove('active'));
+        const match = document.querySelector(`.nav-item[data-target="${entry.target.id}"]`);
+        if(match) match.classList.add('active');
+      }
+    });
+  }, {rootMargin: '-15% 0px -70% 0px'});
+  sections.forEach(s => observer.observe(s));
+
+  // close mobile sidebar after nav click
+  navItems.forEach(n => n.addEventListener('click', () => {
+    document.querySelector('.sidebar').classList.remove('open');
+  }));
+
+  // progress checkboxes (in-memory only)
+  function toggleCheck(e, el){
+    e.preventDefault();
+    e.stopPropagation();
+    el.classList.toggle('done');
+  }
+
+  // simple search: highlight + dim non-matching cards
+  const searchInput = document.getElementById('search');
+  const allCards = document.querySelectorAll('.card');
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    allCards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      card.classList.toggle('highlight-off', q.length > 1 && !text.includes(q));
+    });
+  });
+</script>
 </body>
 </html>

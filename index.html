@@ -160,6 +160,45 @@
     background:var(--ink); color:#fff; width:18px; height:18px; border-radius:50%; display:inline-flex;
     align-items:center; justify-content:center; font-size:10.5px; margin-right:8px;}
 
+  .question {
+    margin-bottom: 24px;
+    border-left: 4px solid var(--accent);
+    padding-left: 18px;
+  }
+  .question h4 {
+    margin: 0 0 12px 0;
+    font-size: 15.5px;
+    line-height: 1.4;
+  }
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .option {
+    padding: 10px 14px;
+    border: 1px solid #e0ded4;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .option:hover {
+    background: #f8f7f2;
+    border-color: var(--accent);
+  }
+  .answer {
+    margin-top: 14px;
+    padding: 14px;
+    background: var(--ok-soft);
+    border: 1px solid var(--ok);
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .answer strong {
+    color: var(--ok);
+  }
+
   .backtotop{
     position:fixed; bottom:24px; right:24px; background:var(--ink); color:#fff; border:none;
     width:42px; height:42px; border-radius:50%; cursor:pointer; font-size:16px; display:none;
@@ -217,6 +256,7 @@
 
       <div class="nav-group-label">Tinjauan Cepat</div>
       <a class="nav-item" href="#ringkasan" data-target="ringkasan"><span class="nav-tag">★</span> Tabel Perbandingan</a>
+      <a class="nav-item" href="#latihan" data-target="latihan"><span class="nav-tag">?</span> Latihan Soal</a>
       <a class="nav-item" href="#tips" data-target="tips"><span class="nav-tag">!</span> Tips Ujian</a>
     </nav>
 
@@ -227,11 +267,11 @@
     <div class="hero" id="beranda">
       <div class="eyebrow">Persiapan UAS · Machine Learning</div>
       <h1 class="title">Semua materi Deep Learning sampai Ensemble Learning, dalam satu halaman.</h1>
-      <p class="lead">Ringkasan konsep inti, rumus, algoritma, dan tabel perbandingan untuk enam topik terakhir sebelum ujian: Deep Learning, Unsupervised Learning, Instance-Based Learning, Hidden Markov Model, Reinforcement Learning, dan Ensemble Learning.</p>
+      <p class="lead">Ringkasan konsep inti, rumus, algoritma, tabel perbandingan, <strong>+ latihan soal pilihan ganda</strong> untuk enam topik terakhir sebelum ujian.</p>
       <div class="hero-meta">
         <span class="chip">6 Topik</span>
         <span class="chip">Pertemuan 9–15</span>
-        <span class="chip">Rumus + Algoritma + Tabel</span>
+        <span class="chip">Rumus + Algoritma + Tabel + Latihan</span>
       </div>
     </div>
 
@@ -590,6 +630,210 @@ Dengan probabilitas 1−ε → pilih aksi terbaik saat ini (eksploitasi)</div>
       </div>
     </section>
 
+    <!-- ============ LATIHAN SOAL ============ -->
+    <section id="latihan">
+      <div class="section-head">
+        <span class="week-badge">?</span>
+        <h2 class="sec-title">Latihan Soal Pilihan Ganda</h2>
+      </div>
+      <p class="sec-desc">15 soal pilihan ganda untuk menguji pemahamanmu. Jawaban dan pembahasan ada di bawah setiap soal.</p>
+
+      <div class="card">
+        <div class="question">
+          <h4>1. Fungsi aktivasi yang paling umum digunakan di hidden layer Deep Learning karena tidak mengalami vanishing gradient pada nilai positif adalah…</h4>
+          <div class="options">
+            <div class="option">A. Sigmoid</div>
+            <div class="option">B. Tanh</div>
+            <div class="option">C. ReLU</div>
+            <div class="option">D. Softmax</div>
+          </div>
+          <div class="answer"><strong>Jawaban: C. ReLU</strong><br>ReLU (Rectified Linear Unit) cepat dan tidak menyebabkan vanishing gradient untuk nilai positif, sehingga lebih baik daripada Sigmoid/Tanh untuk hidden layer yang dalam.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>2. Algoritma yang digunakan untuk mencari urutan state tersembunyi paling mungkin dalam HMM disebut…</h4>
+          <div class="options">
+            <div class="option">A. Forward Algorithm</div>
+            <div class="option">B. Baum-Welch Algorithm</div>
+            <div class="option">C. Viterbi Algorithm</div>
+            <div class="option">D. Bellman Equation</div>
+          </div>
+          <div class="answer"><strong>Jawaban: C. Viterbi Algorithm</strong><br>Viterbi menggunakan operasi max untuk decoding (mencari path terbaik), sedangkan Forward menggunakan sum untuk evaluation.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>3. Berikut ini merupakan kelebihan DBSCAN dibanding K-Means kecuali…</h4>
+          <div class="options">
+            <div class="option">A. Bisa mendeteksi outlier</div>
+            <div class="option">B. Tidak perlu menentukan jumlah cluster di awal</div>
+            <div class="option">C. Cocok untuk cluster berbentuk bola</div>
+            <div class="option">D. Bisa menemukan cluster dengan bentuk tidak beraturan</div>
+          </div>
+          <div class="answer"><strong>Jawaban: C. Cocok untuk cluster berbentuk bola</strong><br>K-Means lebih cocok untuk cluster berbentuk bola/convex, sedangkan DBSCAN unggul pada bentuk arbitrary dan outlier.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>4. Dalam Reinforcement Learning, Q-Learning termasuk metode…</h4>
+          <div class="options">
+            <div class="option">A. On-policy</div>
+            <div class="option">B. Off-policy</div>
+            <div class="option">C. Model-based</div>
+            <div class="option">D. Lazy learning</div>
+          </div>
+          <div class="answer"><strong>Jawaban: B. Off-policy</strong><br>Q-Learning belajar dari kebijakan optimal (menggunakan max Q) terlepas dari kebijakan yang sedang dijalankan.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>5. Tujuan utama Bagging adalah…</h4>
+          <div class="options">
+            <div class="option">A. Mengurangi bias</div>
+            <div class="option">B. Mengurangi variance</div>
+            <div class="option">C. Meningkatkan interpretability</div>
+            <div class="option">D. Mempercepat training</div>
+          </div>
+          <div class="answer"><strong>Jawaban: B. Mengurangi variance</strong><br>Bagging (termasuk Random Forest) mengurangi variance dengan menggabungkan banyak model yang dilatih pada data berbeda.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>6. Metrik jarak yang paling sensitif terhadap outlier adalah…</h4>
+          <div class="options">
+            <div class="option">A. Manhattan</div>
+            <div class="option">B. Euclidean</div>
+            <div class="option">C. Hamming</div>
+            <div class="option">D. Minkowski (p=1)</div>
+          </div>
+          <div class="answer"><strong>Jawaban: B. Euclidean</strong><br>Euclidean (p=2) lebih sensitif terhadap outlier karena menggunakan akar kuadrat selisih.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>7. Yang termasuk komponen HMM adalah…</h4>
+          <div class="options">
+            <div class="option">A. Policy, Reward, State</div>
+            <div class="option">B. A (transisi), B (emisi), π (awal)</div>
+            <div class="option">C. Centroid, Epsilon, MinPts</div>
+            <div class="option">D. Kernel, Stride, Padding</div>
+          </div>
+          <div class="answer"><strong>Jawaban: B. A (transisi), B (emisi), π (awal)</strong><br>Ini adalah definisi standar λ = (A, B, π) pada HMM.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>8. Teknik regularisasi yang mematikan neuron secara acak saat training adalah…</h4>
+          <div class="options">
+            <div class="option">A. Batch Normalization</div>
+            <div class="option">B. Dropout</div>
+            <div class="option">C. Early Stopping</div>
+            <div class="option">D. L2 Regularization</div>
+          </div>
+          <div class="answer"><strong>Jawaban: B. Dropout</strong><br>Dropout mencegah co-adaptation antar neuron sehingga model lebih robust.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>9. Dalam Boosting, model baru fokus memperbaiki…</h4>
+          <div class="options">
+            <div class="option">A. Data yang benar</div>
+            <div class="option">B. Residual error / sampel yang salah</div>
+            <div class="option">C. Fitur yang tidak penting</div>
+            <div class="option">D. Hyperparameter</div>
+          </div>
+          <div class="answer"><strong>Jawaban: B. Residual error / sampel yang salah</strong><br>Boosting bekerja secara sequential dengan memberikan bobot lebih pada sampel sulit.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>10. Curse of Dimensionality paling berdampak pada algoritma…</h4>
+          <div class="options">
+            <div class="option">A. Random Forest</div>
+            <div class="option">B. KNN</div>
+            <div class="option">C. XGBoost</div>
+            <div class="option">D. CNN</div>
+          </div>
+          <div class="answer"><strong>Jawaban: B. KNN</strong><br>Semakin tinggi dimensi, jarak antar titik menjadi seragam sehingga konsep "tetangga terdekat" melemah.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>11. Softmax biasanya digunakan di…</h4>
+          <div class="options">
+            <div class="option">A. Hidden layer</div>
+            <div class="option">B. Output layer klasifikasi multi-kelas</div>
+            <div class="option">C. Convolution layer</div>
+            <div class="option">D. Pooling layer</div>
+          </div>
+          <div class="answer"><strong>Jawaban: B. Output layer klasifikasi multi-kelas</strong><br>Softmax mengubah nilai logit menjadi probabilitas yang berjumlah 1.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>12. Metode untuk memilih K pada K-Means adalah…</h4>
+          <div class="options">
+            <div class="option">A. Elbow Method</div>
+            <div class="option">B. Viterbi Algorithm</div>
+            <div class="option">C. Epsilon-greedy</div>
+            <div class="option">D. Baum-Welch</div>
+          </div>
+          <div class="answer"><strong>Jawaban: A. Elbow Method</strong><br>Elbow Method melihat titik "siku" pada plot inertia vs jumlah cluster.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>13. Yang bukan termasuk gate pada LSTM adalah…</h4>
+          <div class="options">
+            <div class="option">A. Forget gate</div>
+            <div class="option">B. Input gate</div>
+            <div class="option">C. Convolution gate</div>
+            <div class="option">D. Output gate</div>
+          </div>
+          <div class="answer"><strong>Jawaban: C. Convolution gate</strong><br>LSTM memiliki tiga gate: forget, input, dan output.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>14. Stacking ensemble menggunakan…</h4>
+          <div class="options">
+            <div class="option">A. Voting sederhana</div>
+            <div class="option">B. Meta-learner pada prediksi base model</div>
+            <div class="option">C. Bootstrap sampling</div>
+            <div class="option">D. Residual error</div>
+          </div>
+          <div class="answer"><strong>Jawaban: B. Meta-learner pada prediksi base model</strong><br>Stacking mempelajari cara terbaik mengombinasikan prediksi dari model-model dasar.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="question">
+          <h4>15. Dalam RL, discount factor (γ) berfungsi untuk…</h4>
+          <div class="options">
+            <div class="option">A. Menghitung jumlah cluster</div>
+            <div class="option">B. Menyeimbangkan reward sekarang dan masa depan</div>
+            <div class="option">C. Mengatur learning rate</div>
+            <div class="option">D. Menentukan jumlah epoch</div>
+          </div>
+          <div class="answer"><strong>Jawaban: B. Menyeimbangkan reward sekarang dan masa depan</strong><br>γ mendekati 1 berarti lebih memperhatikan reward jangka panjang.</div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ RINGKASAN ============ -->
     <section id="ringkasan">
       <div class="section-head">
@@ -634,6 +878,7 @@ Dengan probabilitas 1−ε → pilih aksi terbaik saat ini (eksploitasi)</div>
           <li>Latihan menghitung manual dengan angka kecil: satu iterasi K-Means, satu langkah update Q-Learning, atau menghitung Support/Confidence/Lift Apriori — soal hitungan sederhana sering keluar.</li>
           <li>Buat tabel perbandingan sendiri di kertas coret-coretan sebelum ujian dimulai (mis. Bagging vs Boosting, Q-Learning vs SARSA) sebagai pemanasan mengingat.</li>
           <li>Kalau soal berbentuk studi kasus, identifikasi dulu: <i>ada label atau tidak? data sekuensial atau tidak? butuh reward/lingkungan interaktif atau tidak?</i> — itu langsung mempersempit topik yang relevan.</li>
+          <li><strong>Bonus:</strong> Kerjakan latihan soal di atas berulang kali dan pahami pembahasannya.</li>
         </ul>
       </div>
     </section>
